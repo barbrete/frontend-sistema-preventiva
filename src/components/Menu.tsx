@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
-import { Home, ClipboardList, Calendar, User, PanelRightOpen, List, LogOut } from "lucide-react";
+import { Home, ClipboardList, Calendar, User, PanelRightOpen, List, LogOut, Users, Users2, UserCog } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { logOut } from "@/services/auth"; 
 import ConfirmacaoSair from "./modal/ConfirmacaoSair";
@@ -71,8 +71,8 @@ export default function Menu({ open, setOpen }) {
                         href="/visitas"
                         className="flex items-center gap-10 font-semibold text-2xl pl-2"
                     >
-                        <Calendar size={sizeIcon} />
-                        {open && <span>Visitas</span>}
+                        <Users2 size={sizeIcon} />
+                        {open && <span>Equipe</span>}
                     </Link>
                 </li>
                 <li className="hover:bg-white transition-colors py-4 hover:text-blue-800">
