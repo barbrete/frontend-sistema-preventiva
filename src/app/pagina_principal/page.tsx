@@ -7,13 +7,13 @@ export default function PaginaPrincipal() {
     const [open, setOpen] = useState(false);
 
     const menuMargin = open ? "ml-80 md:ml-64 sm:ml-45" : "ml-20 md:ml-20 sm:ml-16";
-    const headerPadding = "pt-24"; // Exemplo: 6rem (24 Tailwind)
+    const headerPadding = "pt-24"; 
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-100 via-blue-300 to-blue-500">
+        <div className="min-h-screen bg-gradient-to-br from-blue-100 via-blue-300 to-blue-500 flex flex-col">
             <Menu open={open} setOpen={setOpen} />
             <Header open={open} />
-            <main className={`w-full bg-white rounded-xl shadow-lg p-8 flex flex-col items-center mt-8 transition-all duration-300 ${menuMargin} ${headerPadding}`}>
+            <main className={`flex-1 w-full bg-white rounded-xl shadow-lg p-8 flex flex-col items-center mt-8 transition-all duration-300 ${menuMargin} ${headerPadding}`}>
                 <h1 className="text-3xl font-bold text-blue-700 mb-4">Sistema Preventiva</h1>
                 <p className="text-lg text-blue-900 mb-8 text-center">
                     Bem-vindo ao sistema de gestão preventiva! Aqui você pode acompanhar suas atividades, registrar visitas e visualizar informações importantes.
