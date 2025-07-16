@@ -2,9 +2,19 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Home, ClipboardList, Calendar, User, PanelRightOpen, List, LogOut } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { logOut } from "@/services/auth"; 
+import ConfirmacaoSair from "./modal/ConfirmacaoSair";
 
-export default function Menu() {
-    const [open, setOpen] = useState(false);
+export default function Menu({ open, setOpen }) {
+    const router = useRouter();
+    const [modalSair, setModalSair] = useState(false);
+    const sizeIcon = 35
+
+    async function handleLogout() {
+        await logOut();
+        router.push("/login");
+    }
 
     return (
         <nav
@@ -15,11 +25,11 @@ export default function Menu() {
 
             <div className="mx-auto flex justify-center items-center mt-8 mb-20 gap-5 md:gap-4 sm:gap-3 ">
                 <Link href="/pagina_principal">
-                <img
-                    src="/menu/logo.png"
-                    alt="Logo Preventiva"
-                    className="h-10 md:h-9 sm:h-8 w-auto"
-                />
+                    <img
+                        src="/menu/logo.png"
+                        alt="Logo Preventiva"
+                        className="h-10 md:h-9 sm:h-8 w-auto"
+                    />
                 </Link>
             </div>
 
@@ -29,31 +39,30 @@ export default function Menu() {
                 onClick={() => setOpen(!open)}
                 style={{ transition: "right 0.3s" }}
             >
-                {open ? <PanelRightOpen size={35} /> : <List size={35} />}
+                {open ? <PanelRightOpen size={sizeIcon} /> : <List size={sizeIcon} />}
             </button>
 
-            <div className={open ? "h-1" : "h-1"} />
 
             <ul className="flex flex-col gap-8 pl-2">
-<div>
-                {open ? (<p className="pl-4">Principal</p>) : (<div className="h-7"/>)}
+                <div>
+                    {open ? (<p className="pl-4 mb-2">Principal</p>) : (<div className="h-7" />)}
 
-                <li className="hover:bg-white transition-colors py-4 hover:text-blue-800">
-                    <Link
-                        href="/pagina_principal"
-                        className="flex items-center gap-10 font-semibold text-2xl pl-2"
-                    >
-                        <Home size={40} className="" />
-                        {open && <span>Início</span>}
-                    </Link>
-                </li>
+                    <li className="hover:bg-white transition-colors py-4 hover:text-blue-800">
+                        <Link
+                            href="/pagina_principal"
+                            className="flex items-center gap-10 font-semibold text-2xl pl-2"
+                        >
+                            <Home size={sizeIcon} className="" />
+                            {open && <span>Início</span>}
+                        </Link>
+                    </li>
                 </div>
                 <li className="hover:bg-white transition-colors py-4 hover:text-blue-800">
                     <Link
                         href="/preventivas"
                         className="flex items-center gap-10 font-semibold text-2xl pl-2"
                     >
-                        <ClipboardList size={40} />
+                        <ClipboardList size={sizeIcon} />
                         {open && <span>Preventivas</span>}
                     </Link>
                 </li>
@@ -62,7 +71,7 @@ export default function Menu() {
                         href="/visitas"
                         className="flex items-center gap-10 font-semibold text-2xl pl-2"
                     >
-                        <Calendar size={40} />
+                        <Calendar size={sizeIcon} />
                         {open && <span>Visitas</span>}
                     </Link>
                 </li>
@@ -71,25 +80,33 @@ export default function Menu() {
                         href="/perfil"
                         className="flex items-center gap-10  font-semibold text-2xl pl-2"
                     >
-                        <User size={40} />
+                        <User size={sizeIcon} />
                         {open && <span>Perfil</span>}
                     </Link>
                 </li>
 
                 <div className="mt-20">
-                    {open ? (<p className="pl-3">Conta</p>) : (<div className=" h-5" />)}
+                    {open ? (<p className="pl-3 mb-2">Conta</p>) : (<div className=" h-5" />)}
 
                     <li className="hover:bg-white transition-colors py-4 hover:text-blue-800">
-                        <Link
-                            href="/perfil"
+                        <button
+                            onClick={() => setModalSair(true)}
                             className="flex items-center gap-10  font-semibold text-2xl pl-2"
                         >
-                            <LogOut size={40} />
+                            <LogOut size={sizeIcon} />
                             {open && <span>Sair</span>}
-                        </Link>
+                        </button>
                     </li>
                 </div>
             </ul>
+            <ConfirmacaoSair
+                open={modalSair}
+                onConfirm={() => {
+                    setModalSair(false);
+                    handleLogout();
+                }}
+                onCancel={() => setModalSair(false)}
+            />
         </nav>
     );
 }

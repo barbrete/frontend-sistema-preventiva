@@ -16,3 +16,8 @@ export async function getUsuario() {
   const response = await api.get("auth/usuario", { withCredentials: true });
   return response.data;
 }
+
+export async function logOut() {
+  const response = await api.post("/auth/logout", {}, { withCredentials: true });
+  return response.data;
+}
