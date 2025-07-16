@@ -6,10 +6,10 @@ import { useRouter } from "next/navigation";
 import { logOut } from "@/services/auth"; 
 import ConfirmacaoSair from "./modal/ConfirmacaoSair";
 
-export default function Menu() {
-    const [open, setOpen] = useState(false);
+export default function Menu({ open, setOpen }) {
     const router = useRouter();
     const [modalSair, setModalSair] = useState(false);
+    const sizeIcon = 35
 
     async function handleLogout() {
         await logOut();
@@ -39,7 +39,7 @@ export default function Menu() {
                 onClick={() => setOpen(!open)}
                 style={{ transition: "right 0.3s" }}
             >
-                {open ? <PanelRightOpen size={35} /> : <List size={35} />}
+                {open ? <PanelRightOpen size={sizeIcon} /> : <List size={sizeIcon} />}
             </button>
 
 
@@ -52,7 +52,7 @@ export default function Menu() {
                             href="/pagina_principal"
                             className="flex items-center gap-10 font-semibold text-2xl pl-2"
                         >
-                            <Home size={40} className="" />
+                            <Home size={sizeIcon} className="" />
                             {open && <span>Início</span>}
                         </Link>
                     </li>
@@ -62,7 +62,7 @@ export default function Menu() {
                         href="/preventivas"
                         className="flex items-center gap-10 font-semibold text-2xl pl-2"
                     >
-                        <ClipboardList size={40} />
+                        <ClipboardList size={sizeIcon} />
                         {open && <span>Preventivas</span>}
                     </Link>
                 </li>
@@ -71,7 +71,7 @@ export default function Menu() {
                         href="/visitas"
                         className="flex items-center gap-10 font-semibold text-2xl pl-2"
                     >
-                        <Calendar size={40} />
+                        <Calendar size={sizeIcon} />
                         {open && <span>Visitas</span>}
                     </Link>
                 </li>
@@ -80,20 +80,20 @@ export default function Menu() {
                         href="/perfil"
                         className="flex items-center gap-10  font-semibold text-2xl pl-2"
                     >
-                        <User size={40} />
+                        <User size={sizeIcon} />
                         {open && <span>Perfil</span>}
                     </Link>
                 </li>
 
                 <div className="mt-20">
-                    {open ? (<p className="pl-3">Conta</p>) : (<div className=" h-5" />)}
+                    {open ? (<p className="pl-3 mb-2">Conta</p>) : (<div className=" h-5" />)}
 
                     <li className="hover:bg-white transition-colors py-4 hover:text-blue-800">
                         <button
                             onClick={() => setModalSair(true)}
                             className="flex items-center gap-10  font-semibold text-2xl pl-2"
                         >
-                            <LogOut size={40} />
+                            <LogOut size={sizeIcon} />
                             {open && <span>Sair</span>}
                         </button>
                     </li>
