@@ -2,9 +2,19 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Home, ClipboardList, Calendar, User, PanelRightOpen, List, LogOut } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { logOut } from "@/services/auth"; 
+import ConfirmacaoSair from "./modal/ConfirmacaoSair";
 
 export default function Menu() {
     const [open, setOpen] = useState(false);
+    const router = useRouter();
+    const [modalSair, setModalSair] = useState(false);
+
+    async function handleLogout() {
+        await logOut();
+        router.push("/login");
+    }
 
     return (
         <nav
@@ -15,11 +25,11 @@ export default function Menu() {
 
             <div className="mx-auto flex justify-center items-center mt-8 mb-20 gap-5 md:gap-4 sm:gap-3 ">
                 <Link href="/pagina_principal">
-                <img
-                    src="/menu/logo.png"
-                    alt="Logo Preventiva"
-                    className="h-10 md:h-9 sm:h-8 w-auto"
-                />
+                    <img
+                        src="/menu/logo.png"
+                        alt="Logo Preventiva"
+                        className="h-10 md:h-9 sm:h-8 w-auto"
+                    />
                 </Link>
             </div>
 
@@ -32,21 +42,20 @@ export default function Menu() {
                 {open ? <PanelRightOpen size={35} /> : <List size={35} />}
             </button>
 
-            <div className={open ? "h-1" : "h-1"} />
 
             <ul className="flex flex-col gap-8 pl-2">
-<div>
-                {open ? (<p className="pl-4">Principal</p>) : (<div className="h-7"/>)}
+                <div>
+                    {open ? (<p className="pl-4 mb-2">Principal</p>) : (<div className="h-7" />)}
 
-                <li className="hover:bg-white transition-colors py-4 hover:text-blue-800">
-                    <Link
-                        href="/pagina_principal"
-                        className="flex items-center gap-10 font-semibold text-2xl pl-2"
-                    >
-                        <Home size={40} className="" />
-                        {open && <span>Início</span>}
-                    </Link>
-                </li>
+                    <li className="hover:bg-white transition-colors py-4 hover:text-blue-800">
+                        <Link
+                            href="/pagina_principal"
+                            className="flex items-center gap-10 font-semibold text-2xl pl-2"
+                        >
+                            <Home size={40} className="" />
+                            {open && <span>Início</span>}
+                        </Link>
+                    </li>
                 </div>
                 <li className="hover:bg-white transition-colors py-4 hover:text-blue-800">
                     <Link
@@ -80,16 +89,24 @@ export default function Menu() {
                     {open ? (<p className="pl-3">Conta</p>) : (<div className=" h-5" />)}
 
                     <li className="hover:bg-white transition-colors py-4 hover:text-blue-800">
-                        <Link
-                            href="/perfil"
+                        <button
+                            onClick={() => setModalSair(true)}
                             className="flex items-center gap-10  font-semibold text-2xl pl-2"
                         >
                             <LogOut size={40} />
                             {open && <span>Sair</span>}
-                        </Link>
+                        </button>
                     </li>
                 </div>
             </ul>
+            <ConfirmacaoSair
+                open={modalSair}
+                onConfirm={() => {
+                    setModalSair(false);
+                    handleLogout();
+                }}
+                onCancel={() => setModalSair(false)}
+            />
         </nav>
     );
 }
