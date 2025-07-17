@@ -68,7 +68,7 @@ export default function Menu({ open, setOpen }) {
                 </li>
                 <li className="hover:bg-white transition-colors py-4 hover:text-blue-800">
                     <Link
-                        href="/visitas"
+                        href="/equipe"
                         className="flex items-center gap-10 font-semibold text-2xl pl-2"
                     >
                         <Users2 size={sizeIcon} />
