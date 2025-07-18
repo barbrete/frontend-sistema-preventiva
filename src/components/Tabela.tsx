@@ -141,7 +141,7 @@ export default function TabelaPreventivas({
                 <TableCell align="center">
                   {p.irregularidades_corrigidas}
                 </TableCell>
-                <TableCell>
+                <TableCell align="center">
                   {new Date(p.created_at).toLocaleDateString("pt-br")}
                 </TableCell>
               </TableRow>

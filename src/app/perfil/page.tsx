@@ -18,7 +18,7 @@ export default function PerfilTecnico() {
   const headerPadding = "pt-24";
 
   const [tecnico, setTecnico] = useState<any>(null);
-  const [preventivas, setPreventivas] = useState<any[]>([]);
+  const [preventivas, setPreventivas] = useState<Preventiva[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,10 +27,11 @@ export default function PerfilTecnico() {
       try {
         const resTec = await api.get(`/usuarios/${tecnicoId}`);
         setTecnico(resTec.data);
-        const resPrev = await api.get<{ preventivas: Preventiva[] }>(
-          `/preventivas?tecnicoId=${tecnicoId}`
-        );
-        setPreventivas(resPrev.data.preventivas);
+        console.log("setTecnico",resTec.data)
+        const resPrev = await api.get<Preventiva[]>(`/preventivas/usuario/${tecnicoId}`);
+        setPreventivas(resPrev.data);
+        console.log("setPreventivas",resPrev.data)
+
       } catch {
         setTecnico(null);
         setPreventivas([]);
