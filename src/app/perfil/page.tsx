@@ -9,6 +9,7 @@ import Menu from "@/components/Menu";
 import Footer from "@/components/Footer";
 import TabelaPreventivas from "@/components/Tabela";
 import { Preventiva } from "@/utils/Interfaces";
+import { buscarTecnicoPorId, buscarPreventivasPorTecnico } from "@/services/usuario";
 
 export default function PerfilTecnico() {
   const router = useRouter();
@@ -25,13 +26,10 @@ export default function PerfilTecnico() {
     async function fetchData() {
       setLoading(true);
       try {
-        const resTec = await api.get(`/usuarios/${tecnicoId}`);
+        const resTec = await buscarTecnicoPorId(tecnicoId);
         setTecnico(resTec.data);
-        console.log("setTecnico",resTec.data)
-        const resPrev = await api.get<Preventiva[]>(`/preventivas/usuario/${tecnicoId}`);
+        const resPrev = await buscarPreventivasPorTecnico(tecnicoId);
         setPreventivas(resPrev.data);
-        console.log("setPreventivas",resPrev.data)
-
       } catch {
         setTecnico(null);
         setPreventivas([]);
@@ -93,6 +91,7 @@ export default function PerfilTecnico() {
             <div className="overflow-x-auto">
               <TabelaPreventivas
                 preventivas={[]}
+                loading={loading}
                 onRowClick={(id) => router.push(`/preventiva/${id}`)}
                 userId={tecnico.id}
               />

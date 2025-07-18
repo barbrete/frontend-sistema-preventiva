@@ -5,14 +5,26 @@ export interface Usuario {
     tipo: string;
 }
 
+interface Tecnico {
+  id: number;
+  name: string;
+  email: string;
+  tipo: string;
+  ativo: boolean;
+}
+
 export interface Preventiva {
-    nome: string;
-    kilometragem_percorrida: number;
-    irregularidades_encontradas: number;
-    irregularidades_corrigidas: number;
-    descricao: string;
-    userId: number;
-    usuario?: Usuario[];
+  id: number;
+  nome: string;
+  kilometragem_percorrida: number;
+  irregularidades_encontradas: number;
+  irregularidades_corrigidas: number;
+  descricao: string;
+  user_id: number;
+  usuario?: Usuario;
+  fotos?: Foto[];
+  created_at: string;
+  updated_at: string;
 }
 
 export interface Foto {

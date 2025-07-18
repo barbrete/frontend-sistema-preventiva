@@ -1,40 +1,23 @@
 import React, { useEffect, useState } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, } from "@mui/material";
 import TablePagination from "@mui/material/TablePagination";
 import api from "@/utils/axios";
-
-interface Preventiva {
-  id: number;
-  nome?: string;
-  kilometragem_percorrida: number;
-  irregularidades_encontradas: number;
-  irregularidades_corrigidas: number;
-  created_at: string;
-}
+import { Preventiva } from "@/utils/Interfaces";
+import LoadingOverlay from "@/components/Loading";
 
 interface TabelaPreventivasProps {
   preventivas: Preventiva[];
+  loading?: boolean;
   onRowClick?: (id: number) => void;
   userId: number;
 }
 
-export default function TabelaPreventivas({
-  preventivas,
-  onRowClick,
-  userId,
-}: TabelaPreventivasProps) {
+export default function TabelaPreventivas({ preventivas, loading = false, onRowClick, userId }: TabelaPreventivasProps) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [preventivasState, setPreventivas] = useState<any[]>([]);
   const [total, setTotal] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
 
   useEffect(() => {
     async function fetchPreventivas() {
@@ -42,8 +25,7 @@ export default function TabelaPreventivas({
       try {
         console.log("Buscando preventivas:", { userId, page, rowsPerPage });
         const res = await api.get<{ preventivas: Preventiva[]; total: number }>(
-          `/preventivas/paginacao/${userId}?page=${
-            page + 1
+          `/preventivas/paginacao/${userId}?page=${page + 1
           }&limit=${rowsPerPage}`
         );
         console.log("Resposta da API:", res.data);
@@ -105,7 +87,7 @@ export default function TabelaPreventivas({
             >
               {"Irregularidades\nCorrigidas"}
             </TableCell>
-            <TableCell
+            <TableCell align="center"
               sx={{ color: "#fff", fontWeight: "bold", fontSize: "1rem" }}
             >
               Data de Criação
@@ -113,10 +95,16 @@ export default function TabelaPreventivas({
           </TableRow>
         </TableHead>
         <TableBody>
-          {preventivasState.length === 0 && !loading ? (
+          {loading ? (
             <TableRow>
               <TableCell colSpan={6} align="center">
-                Nenhuma preventiva realizada.
+                <LoadingOverlay show={true} text="Carregando preventivas..." />
+              </TableCell>
+            </TableRow>
+          ) : preventivasState.length === 0 ? (
+            <TableRow>
+              <TableCell colSpan={6} align="center">
+                Carregando preventivas
               </TableCell>
             </TableRow>
           ) : (
