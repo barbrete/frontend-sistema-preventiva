@@ -7,7 +7,7 @@ import api from "@/utils/axios";
 import Header from "@/components/Header";
 import Menu from "@/components/Menu";
 import Footer from "@/components/Footer";
-import TabelaPreventivas from "@/components/Tabela";
+import {TabelaPreventivas} from "@/components/Tabela";
 import { Preventiva } from "@/utils/Interfaces";
 import { buscarTecnicoPorId, buscarPreventivasPorTecnico } from "@/services/usuario";
 

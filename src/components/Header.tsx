@@ -29,7 +29,7 @@ export default function Header({ open }: { open: boolean }) {
         <div className="flex flex-col md:flex-row items-center justify-between bg-white/90  shadow-lg p-6">
           <div>
             <p className="text-lg font-semibold text-blue-800">
-              Bem-vindo, {userInfo.nome}!
+              Bem-vindo, {userInfo.name}!
               {userInfo.tipo === "ADMIN" && (
                 <span className="ml-2 px-3 py-1 rounded-full border border-blue-400 bg-blue-100 text-blue-900 text-xs font-bold shadow-md">
                   ADMIN

@@ -1,6 +1,6 @@
 export interface Usuario {
     id: number;
-    nome: string;
+    name: string;
     email: string;
     tipo: string;
 }
@@ -26,6 +26,8 @@ export interface Preventiva {
   created_at: string;
   updated_at: string;
 }
+
+
 
 export interface Foto {
     url: string,
