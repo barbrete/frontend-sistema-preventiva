@@ -88,9 +88,8 @@ useEffect(() => {
                         modoSelecao={modoSelecao}
                         selecionado={selecionado}
                         onSelecionar={handleSelecionar}
-                        onCardClick={(id) => router.push(`/perfil/${id}`)}
+                        onCardClick={(id) => router.push(`/perfil?id=${id}`)}                        
                         loading={loading}
-
                     />
 
                     <div className="flex gap-10 w-full mt-20 justify-center">
