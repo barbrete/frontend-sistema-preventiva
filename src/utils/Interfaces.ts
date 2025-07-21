@@ -1,3 +1,4 @@
+//o back está retornando nome na rota get /auth/usuario e name nos outros gets
 export interface Usuario {
     id: number;
     nome: string;
@@ -21,16 +22,17 @@ export interface Preventiva {
   irregularidades_corrigidas: number;
   descricao: string;
   user_id: number;
-  usuario?: Usuario;
+  usuario?: Tecnico;
   fotos?: Foto[];
   created_at: string;
   updated_at: string;
 }
 
 export interface Foto {
+    id: number,
     url: string,
     tipo: string,
     preventiva_id: number,
-    userId: number,
+    user_id: number,
     userTipo?: string
 }

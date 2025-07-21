@@ -1,8 +1,7 @@
 "use client"
 import { getUsuario } from "@/services/auth";
-import { getUltimaVisita, salvarAcesso } from "@/utils/Horario";
+import { salvarHorario, getHorario } from "@/utils/Horario";
 import { Usuario } from "@/utils/Interfaces";
-import { Shield } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 export default function Header({ open }: { open: boolean }) {
@@ -11,15 +10,18 @@ export default function Header({ open }: { open: boolean }) {
   useEffect(() => {
     getUsuario()
       .then((user: any) => {
+        console.log("getUsuario retornou:", user);
         setUserInfo(user.usuario as Usuario);
       })
       .catch(() => setUserInfo(null));
+
   }, []);
 
   if (!userInfo) return null;
 
-  salvarAcesso();
-  const ultimaVisita = getUltimaVisita();
+  salvarHorario("ultimaAcao");
+
+  const ultimaVisita = getHorario("ultimaAcao");
 
   const menuMargin = open ? "ml-80 md:ml-64 sm:ml-45" : "ml-20 md:ml-20 sm:ml-16";
 
@@ -28,7 +30,7 @@ export default function Header({ open }: { open: boolean }) {
       <div className={`${menuMargin} transition-all duration-300`}>
         <div className="flex flex-col md:flex-row items-center justify-between bg-white/90  shadow-lg p-6">
           <div>
-            <p className="text-lg font-semibold text-blue-800">
+            <p className="text-lg font-semibold text-blue-800">      
               Bem-vindo, {userInfo.nome}!
               {userInfo.tipo === "ADMIN" && (
                 <span className="ml-2 px-3 py-1 rounded-full border border-blue-400 bg-blue-100 text-blue-900 text-xs font-bold shadow-md">

@@ -9,10 +9,16 @@ interface TabelaPreventivasProps {
   preventivas: Preventiva[];
   loading?: boolean;
   onRowClick?: (id: number) => void;
-  userId: number;
+  user_id?: number;
 }
 
-export default function TabelaPreventivas({ preventivas, loading = false, onRowClick, userId }: TabelaPreventivasProps) {
+interface TabelaPreventivasGeralProps {
+  loading?: boolean;
+  onRowClick?: (id: number) => void;
+  preventivas: Preventiva[];
+}
+
+export function TabelaPreventivas({ preventivas, loading = false, onRowClick, user_id }: TabelaPreventivasProps) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [preventivasState, setPreventivas] = useState<any[]>([]);
@@ -23,9 +29,9 @@ export default function TabelaPreventivas({ preventivas, loading = false, onRowC
     async function fetchPreventivas() {
       setLoading(true);
       try {
-        console.log("Buscando preventivas:", { userId, page, rowsPerPage });
+        console.log("Buscando preventivas:", { user_id, page, rowsPerPage });
         const res = await api.get<{ preventivas: Preventiva[]; total: number }>(
-          `/preventivas/paginacao/${userId}?page=${page + 1
+          `/preventivas/paginacao/${user_id}?page=${page + 1
           }&limit=${rowsPerPage}`
         );
         console.log("Resposta da API:", res.data);
@@ -39,7 +45,7 @@ export default function TabelaPreventivas({ preventivas, loading = false, onRowC
       setLoading(false);
     }
     fetchPreventivas();
-  }, [page, rowsPerPage, userId]);
+  }, [page, rowsPerPage, user_id]);
 
   return (
     <TableContainer
@@ -104,7 +110,7 @@ export default function TabelaPreventivas({ preventivas, loading = false, onRowC
           ) : preventivasState.length === 0 ? (
             <TableRow>
               <TableCell colSpan={6} align="center">
-                Carregando preventivas
+                Carregando preventivas...
               </TableCell>
             </TableRow>
           ) : (
@@ -132,6 +138,99 @@ export default function TabelaPreventivas({ preventivas, loading = false, onRowC
                 <TableCell align="center">
                   {new Date(p.created_at).toLocaleDateString("pt-br")}
                 </TableCell>
+              </TableRow>
+            ))
+          )}
+        </TableBody>
+      </Table>
+      <TablePagination
+        component="div"
+        count={total}
+        page={page}
+        onPageChange={(_, newPage) => setPage(newPage)}
+        labelRowsPerPage="Linhas por página"
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={(e) => {
+          setRowsPerPage(parseInt(e.target.value, 10));
+          setPage(0);
+        }}
+        rowsPerPageOptions={[5, 10, 25]}
+      />
+    </TableContainer>
+  );
+}
+
+export function TabelaPreventivasGeral({ loading = false, onRowClick }: TabelaPreventivasGeralProps) {
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [preventivasState, setPreventivas] = useState<Preventiva[]>([]);
+  const [total, setTotal] = useState(0);
+  const [, setLoading] = useState(false);
+
+  useEffect(() => {
+    async function fetchPreventivas() {
+      setLoading(true);
+      try {
+        const res = await api.get<{ preventivas: Preventiva[]; total: number }>(
+          `/preventivas/paginacao?page=${page + 1}&limit=${rowsPerPage}`
+        );
+        setPreventivas(res.data.preventivas);
+        console.log("RESDATA",res.data.preventivas)
+        setTotal(res.data.total);
+      } catch (err) {
+        setPreventivas([]);
+        setTotal(0);
+      }
+      setLoading(false);
+    }
+    fetchPreventivas();
+  }, [page, rowsPerPage]);
+
+  return (
+    <TableContainer sx={{ borderRadius: 2, boxShadow: 3, background: "#EFF6FF" }}>
+      <Table>
+        <TableHead>
+          <TableRow sx={{ backgroundColor: "#38b6ff" }}>
+            <TableCell align="center" sx={{ color: "#fff", fontWeight: "bold" }}>ID</TableCell>
+            <TableCell align="center" sx={{ color: "#fff", fontWeight: "bold" }}>Nome do técnico</TableCell>
+            <TableCell sx={{ color: "#fff", fontWeight: "bold" }}>Nome da Preventiva</TableCell>
+            <TableCell align="center" sx={{ color: "#fff", fontWeight: "bold" }}>Kilometragem</TableCell>
+            <TableCell align="center" sx={{ color: "#fff", fontWeight: "bold" }}>Irregularidades Encontradas</TableCell>
+            <TableCell align="center" sx={{ color: "#fff", fontWeight: "bold" }}>Irregularidades Corrigidas</TableCell>
+            <TableCell align="center" sx={{ color: "#fff", fontWeight: "bold" }}>Data de Criação</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {loading ? (
+            <TableRow>
+              <TableCell colSpan={6} align="center">
+                <LoadingOverlay show={true} text="Carregando preventivas..." />
+              </TableCell>
+            </TableRow>
+          ) : preventivasState.length === 0 ? (
+            <TableRow>
+              <TableCell colSpan={6} align="center">
+                Nenhuma preventiva encontrada.
+              </TableCell>
+            </TableRow>
+          ) : (
+            preventivasState.map((p, idx) => (
+              <TableRow
+                key={p.id}
+                hover
+                sx={{
+                  cursor: "pointer",
+                  backgroundColor: idx % 2 === 0 ? "#c2dff6" : "#fff",
+                }}
+                onClick={() => onRowClick && onRowClick(p.id)}
+              >
+                <TableCell align="center">{p.id}</TableCell>
+                <TableCell align="center">{p.usuario.name}</TableCell>
+                <TableCell>{p.nome || "-"}</TableCell>
+                <TableCell align="center">{p.kilometragem_percorrida}</TableCell>
+                <TableCell align="center">{p.irregularidades_encontradas}</TableCell>
+                <TableCell align="center">{p.irregularidades_corrigidas}</TableCell>
+                <TableCell align="center">{new Date(p.created_at).toLocaleDateString("pt-br")}</TableCell>
               </TableRow>
             ))
           )}
