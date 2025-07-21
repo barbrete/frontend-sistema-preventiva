@@ -30,3 +30,15 @@ export default function Card({ titulo, children, textoBotão, onSubmit }: PropsC
         </div>
     );
 }
+
+export function InfoCard ({ icon, label, value}: { icon: React.ReactNode; label: string; value: string | number;}) {
+    return(
+    <div className="bg-blue-50 p-4 rounded-lg shadow-sm flex items-center gap-4">
+      <div className="text-blue-600">{icon}</div>
+      <div>
+        <p className="text-sm font-semibold text-blue-800">{label}</p>
+        <p className="text-sm text-gray-700">{value}</p>
+      </div>
+    </div>
+  );  
+}

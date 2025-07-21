@@ -1,9 +1,9 @@
-export function salvarAcesso() {
+export function salvarHorario(chave: string) {
   const opcoes = { timeZone: "America/Sao_Paulo" };
   const agora = new Date().toLocaleString("pt-br", opcoes);
-  localStorage.setItem("ultimaVisita", agora);
+  localStorage.setItem(chave, agora);
 }
 
-export function getUltimaVisita(): string | null {
-  return localStorage.getItem("ultimaVisita");
+export function getHorario(chave: string): string | null {
+  return localStorage.getItem(chave);
 }

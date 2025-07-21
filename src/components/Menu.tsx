@@ -69,7 +69,7 @@ export default function Menu({ open, setOpen }) {
                 </div>
                 <li className="hover:bg-white transition-colors py-4 hover:text-blue-800">
                     <Link
-                        href="/preventivas"
+                        href="/mostrar_preventivas"
                         className="flex items-center gap-10 font-semibold text-xl pl-2"
                     >
                         <ClipboardList size={sizeIcon} />

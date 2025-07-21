@@ -9,7 +9,7 @@ interface TabelaPreventivasProps {
   preventivas: Preventiva[];
   loading?: boolean;
   onRowClick?: (id: number) => void;
-  userId?: number;
+  user_id?: number;
 }
 
 interface TabelaPreventivasGeralProps {
@@ -18,7 +18,7 @@ interface TabelaPreventivasGeralProps {
   preventivas: Preventiva[];
 }
 
-export function TabelaPreventivas({ preventivas, loading = false, onRowClick, userId }: TabelaPreventivasProps) {
+export function TabelaPreventivas({ preventivas, loading = false, onRowClick, user_id }: TabelaPreventivasProps) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [preventivasState, setPreventivas] = useState<any[]>([]);
@@ -29,9 +29,9 @@ export function TabelaPreventivas({ preventivas, loading = false, onRowClick, us
     async function fetchPreventivas() {
       setLoading(true);
       try {
-        console.log("Buscando preventivas:", { userId, page, rowsPerPage });
+        console.log("Buscando preventivas:", { user_id, page, rowsPerPage });
         const res = await api.get<{ preventivas: Preventiva[]; total: number }>(
-          `/preventivas/paginacao/${userId}?page=${page + 1
+          `/preventivas/paginacao/${user_id}?page=${page + 1
           }&limit=${rowsPerPage}`
         );
         console.log("Resposta da API:", res.data);
@@ -45,7 +45,7 @@ export function TabelaPreventivas({ preventivas, loading = false, onRowClick, us
       setLoading(false);
     }
     fetchPreventivas();
-  }, [page, rowsPerPage, userId]);
+  }, [page, rowsPerPage, user_id]);
 
   return (
     <TableContainer
@@ -110,7 +110,7 @@ export function TabelaPreventivas({ preventivas, loading = false, onRowClick, us
           ) : preventivasState.length === 0 ? (
             <TableRow>
               <TableCell colSpan={6} align="center">
-                Carregando preventivas
+                Carregando preventivas...
               </TableCell>
             </TableRow>
           ) : (

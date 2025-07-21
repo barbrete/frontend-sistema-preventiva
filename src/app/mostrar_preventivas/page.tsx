@@ -11,7 +11,7 @@ import {TabelaPreventivasGeral} from "@/components/Tabela";
 import { Preventiva } from "@/utils/Interfaces";
 import { buscarTecnicoPorId, buscarPreventivasPorTecnico } from "@/services/usuario";
 
-export default function Preventivas() {
+export default function MostrarPreventivas() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [open, setOpen] = useState(false);
@@ -49,7 +49,7 @@ export default function Preventivas() {
             <TabelaPreventivasGeral
               loading={loading}
               preventivas={preventivas}
-              onRowClick={(id) => router.push(`/preventiva/${id}`)}  
+              onRowClick={(id) => router.push(`/preventiva?id=${id}`)}  
           />
           </div>
         </div>

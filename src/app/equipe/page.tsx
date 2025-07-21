@@ -14,7 +14,7 @@ import Cadastro from "@/components/modal/Cadastro";
 import { criarUsuario, editarUsuario, excluirUsuario } from "@/services/usuario";
 import LoadingOverlay from "@/components/Loading";
 
-export default function PaginaPrincipal() {
+export default function MostrarEquipe() {
     const [open, setOpen] = useState(false);
     const [tecnicos, setTecnicos] = useState<any[]>([]);
     const [modoSelecao, setModoSelecao] = useState<null | "editar" | "excluir">(null);
@@ -26,7 +26,7 @@ export default function PaginaPrincipal() {
     const headerPadding = "pt-24";
     const [loading, setLoading] = useState(false);
 
-useEffect(() => {
+    useEffect(() => {
   setLoading(true);
   api.get("/usuarios/tecnicos")
     .then(res => {

@@ -92,8 +92,8 @@ export default function PerfilTecnico() {
               <TabelaPreventivas
                 preventivas={[]}
                 loading={loading}
-                onRowClick={(id) => router.push(`/preventiva/${id}`)}
-                userId={tecnico.id}
+                onRowClick={(id) => router.push(`/preventiva?id=${id}`)}                        
+                user_id={tecnico.id}
               />
             </div>
           ) : (
