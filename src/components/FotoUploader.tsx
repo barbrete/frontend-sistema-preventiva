@@ -23,7 +23,7 @@ export default function FotoUploader({ fotos, onChange, label, qtdMaxFotos = 5 }
   return (
     <div className="mb-8">
       {label && (
-        <label className="block text-lg font-semibold text-blue-700 mb-2">
+        <label className="block text-lg font-medium text-gray-700 mb-2">
           {label}
         </label>
       )}

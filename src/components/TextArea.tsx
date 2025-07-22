@@ -1,21 +1,16 @@
-export default function Textarea({
-    icon,
-    label,
-    name,
-    value,
-    onChange,
-    required,
-}: {
+interface TextAreaProps {
     icon: React.ReactNode
     label: string
     name: string
     value: string
     onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
     required?: boolean
-}) {
+}
+
+export default function Textarea({ icon, label, name, value, onChange, required }: TextAreaProps){
     return (
         <div className="flex flex-col gap-2">
-            <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+            <label className="text-lg font-medium text-gray-700 flex items-center gap-2">
                 {icon}
                 {label}
             </label>

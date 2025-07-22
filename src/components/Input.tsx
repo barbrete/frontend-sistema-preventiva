@@ -8,10 +8,11 @@ interface InputProps {
   type?: string;
   error?: string; 
 }
+
 export default function Input({ icon, label, name, value, onChange, required, type = 'text', error }: InputProps) {
     return (
         <div className="flex flex-col gap-1">
-            <label htmlFor={name} className="text-md font-medium text-gray-700 flex items-center gap-2">
+            <label htmlFor={name} className="text-lg font-medium text-gray-700 flex items-center gap-2">
                 {icon}
                 {label}
             </label>

@@ -24,6 +24,12 @@ export default function PaginaPrincipal() {
                 
                 <div className="flex gap-12">
                     <button
+                        onClick={() => router.push("/criar_preventiva")}
+                        className="mb-8 px-8 py-5 w-56 rounded-xl bg-gradient-to-r from-blue-600 to-blue-400 text-white text-2xl font-bold shadow-lg hover:scale-105 hover:from-blue-700 hover:to-blue-500 transition-all duration-200"
+                    >
+                        Criar Preventiva
+                    </button>
+                    <button
                         onClick={() => router.push("/equipe")}
                         className="mb-8 px-8 py-5 w-56 rounded-xl bg-gradient-to-r from-blue-600 to-blue-400 text-white text-2xl font-bold shadow-lg hover:scale-105 hover:from-blue-700 hover:to-blue-500 transition-all duration-200"
                     >
@@ -31,7 +37,7 @@ export default function PaginaPrincipal() {
                     </button>
 
                     <button
-                        onClick={() => router.push("/preventiva")}
+                        onClick={() => router.push("/mostrar_preventivas")}
                         className="mb-8 px-8 py-5 w-56 rounded-xl bg-gradient-to-r from-blue-600 to-blue-400 text-white text-2xl font-bold shadow-lg hover:scale-105 hover:from-blue-700 hover:to-blue-500 transition-all duration-200"
                     >
                         Preventiva
