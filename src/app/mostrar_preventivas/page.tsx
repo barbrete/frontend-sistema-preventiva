@@ -43,7 +43,7 @@ export default function MostrarPreventivas() {
             <TabelaPreventivasGeral
               loading={loading}
               preventivas={preventivas}
-              onRowClick={(id) => router.push(`/preventiva?id=${id}`)}
+              onRowClick={(id) => router.push(`/preventiva/${id}`)}
             />
           </div>
         </div>

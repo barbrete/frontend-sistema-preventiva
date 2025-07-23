@@ -76,7 +76,7 @@ export function usePreventivaForm(initialForm, setLoadingText: (text: string) =>
       }
 
       alert("Preventiva criada com sucesso!");
-      router.push(`/preventiva?id=${preventivaId}`);
+      router.push(`/preventiva/${preventivaId}`);
     } catch (err: any) {
         console.log("Erro ao salvar preventiva:", err?.response?.data || err);
         setLoadingText("Erro ao enviar!");
