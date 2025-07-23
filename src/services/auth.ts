@@ -1,5 +1,4 @@
-import api, { axios } from "@/utils/axios";
-import {Usuario} from "@/utils/Interfaces"
+import api from "@/utils/axios";
 
 export async function login(email: string, senha: string) {
   const response = await api.post("/auth/login", { email, senha});

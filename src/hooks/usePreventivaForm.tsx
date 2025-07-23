@@ -1,6 +1,6 @@
 import { getUsuario } from "@/services/auth";
+import { criarPreventiva, enviarFotoPreventiva } from "@/services/preventivas";
 import { Usuario } from "@/utils/Interfaces";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -39,21 +39,17 @@ export function usePreventivaForm(initialForm, setLoadingText: (text: string) =>
     try {
       // 1. Envia os dados da preventiva (sem fotos)
       setLoadingText("Enviando dados...");
-      const preventivaRes = await axios.post(
-        "http://localhost:3000/preventivas",
-        {
+      const preventivaRes = await criarPreventiva({
           nome: form.nome,
           kilometragem_percorrida: Number(form.kilometragem_percorrida),
           irregularidades_encontradas: Number(form.irregularidades_encontradas),
           irregularidades_corrigidas: Number(form.irregularidades_corrigidas),
           descricao: form.descricao,
           userId: userInfo.id,
-        },
-        { withCredentials: true }
-        
+        }  
       );
 
-    const preventivaId = (preventivaRes.data as { id: number }).id;
+    const preventivaId = (preventivaRes as { id: number }).id;
 
       // 2. Envie as fotos "Antes"
       setLoadingText("Enviando fotos...");
@@ -64,11 +60,7 @@ export function usePreventivaForm(initialForm, setLoadingText: (text: string) =>
         fd.append("preventiva_id", String(preventivaId));
         fd.append("userId", String(userInfo.id));
 
-        await axios.post("http://localhost:3000/fotos", fd, {
-            
-          headers: { "Content-Type": "multipart/form-data" },
-          withCredentials: true,
-        });
+        await enviarFotoPreventiva(fd);
       }
 
       // 3. Envie as fotos "Depois"
@@ -80,10 +72,7 @@ export function usePreventivaForm(initialForm, setLoadingText: (text: string) =>
         fd.append("preventiva_id", String(preventivaId));
         fd.append("userId", String(userInfo.id));
 
-        await axios.post("http://localhost:3000/fotos", fd, {
-          headers: { "Content-Type": "multipart/form-data" },
-          withCredentials: true,
-        });
+        await enviarFotoPreventiva(fd);
       }
 
       alert("Preventiva criada com sucesso!");

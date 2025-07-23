@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { Home, ClipboardList, Calendar, User, PanelRightOpen, List, LogOut, Users, Users2, UserCog } from "lucide-react";
+import { Home, ClipboardList, Calendar, User, PanelRightOpen, List, LogOut, Users, Users2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { getUsuario, logOut } from "@/services/auth"; 
 import ConfirmacaoSair from "./modal/ConfirmacaoSair";

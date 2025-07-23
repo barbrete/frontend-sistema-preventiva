@@ -1,9 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import LoadingOverlay from "@/components/Loading";
-import { Pencil, CheckCircle, XCircle } from "lucide-react";
-import api from "@/utils/axios";
 import Header from "@/components/Header";
 import Menu from "@/components/Menu";
 import Footer from "@/components/Footer";
@@ -13,8 +11,8 @@ import { buscarTecnicoPorId, buscarPreventivasPorTecnico } from "@/services/usua
 
 export default function PerfilTecnico() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const tecnicoId = searchParams.get("id");
+  const params = useParams();
+  const tecnicoId = params.id as string;
   const [open, setOpen] = useState(false);
   const headerPadding = "pt-24";
 
