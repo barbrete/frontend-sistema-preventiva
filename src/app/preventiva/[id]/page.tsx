@@ -74,7 +74,7 @@ export default function PreventivaEspecifica() {
               Criado por{" "}
               <button 
                 className="font-medium cursor-pointer hover:underline"
-                onClick={()=>router.push(`/perfil?id=${preventiva.usuario.id}`)}
+                onClick={()=>router.push(`/perfil/${preventiva.usuario.id}`)}
               >
                 {preventiva.usuario?.name || preventiva.usuario?.email || "-"}
               </button>{" "}

@@ -87,7 +87,7 @@ export default function MostrarEquipe() {
                         modoSelecao={modoSelecao}
                         selecionado={selecionado}
                         onSelecionar={handleSelecionar}
-                        onCardClick={(id) => router.push(`/perfil?id=${id}`)}
+                        onCardClick={(id) => router.push(`/perfil/${id}`)}
                         loading={loading}
                     />
 
