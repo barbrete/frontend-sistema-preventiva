@@ -1,17 +1,28 @@
 'use client'
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
 import Menu from "@/components/Menu";
 import Footer from "@/components/Footer";
 import Auth from "@/components/Auth";
+import { getUsuario } from "@/services/auth";
+import { Usuario } from "@/utils/Interfaces";
 
 export default function PaginaPrincipal() {
     const [open, setOpen] = useState(false);
     const router = useRouter();
+    const [userInfo, setUserInfo] = useState<Usuario | null>(null);
 
     const menuMargin = open ? "ml-80 md:ml-64 sm:ml-45" : "ml-20 md:ml-20 sm:ml-16";
     const headerPadding = "pt-24";
+
+    useEffect(() => {
+        getUsuario()
+            .then((user: any) => {
+                setUserInfo(user.usuario as Usuario);
+            })
+            .catch(() => setUserInfo(null));
+    }, []);
 
     return (
         <Auth>
@@ -31,19 +42,23 @@ export default function PaginaPrincipal() {
                         >
                             Criar Preventiva
                         </button>
-                        <button
-                            onClick={() => router.push("/equipe")}
-                            className="mb-8 px-8 py-5 w-56 rounded-xl bg-gradient-to-r from-blue-600 to-blue-400 text-white text-2xl font-bold shadow-lg hover:scale-105 hover:from-blue-700 hover:to-blue-500 transition-all duration-200"
-                        >
-                            Equipe
-                        </button>
+                        {userInfo?.tipo === 'ADMIN' && (
+                            <>
+                                <button
+                                    onClick={() => router.push("/equipe")}
+                                    className="mb-8 px-8 py-5 w-56 rounded-xl bg-gradient-to-r from-blue-600 to-blue-400 text-white text-2xl font-bold shadow-lg hover:scale-105 hover:from-blue-700 hover:to-blue-500 transition-all duration-200"
+                                >
+                                    Equipe
+                                </button>
 
-                        <button
-                            onClick={() => router.push("/mostrar_preventivas")}
-                            className="mb-8 px-8 py-5 w-56 rounded-xl bg-gradient-to-r from-blue-600 to-blue-400 text-white text-2xl font-bold shadow-lg hover:scale-105 hover:from-blue-700 hover:to-blue-500 transition-all duration-200"
-                        >
-                            Preventiva
-                        </button>
+                                <button
+                                    onClick={() => router.push("/mostrar_preventivas")}
+                                    className="mb-8 px-8 py-5 w-56 rounded-xl bg-gradient-to-r from-blue-600 to-blue-400 text-white text-2xl font-bold shadow-lg hover:scale-105 hover:from-blue-700 hover:to-blue-500 transition-all duration-200"
+                                >
+                                    Preventiva
+                                </button>
+                            </>
+                        )}
                     </div>
                 </main>
                 <Footer />

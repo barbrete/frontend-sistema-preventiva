@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Home, ClipboardList, Calendar, User, PanelRightOpen, List, LogOut, Users, Users2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { getUsuario, logOut } from "@/services/auth"; 
+import { getUsuario, logOut } from "@/services/auth";
 import ConfirmacaoSair from "./modal/ConfirmacaoSair";
 import { Usuario } from "@/utils/Interfaces";
 
@@ -17,14 +17,14 @@ export default function Menu({ open, setOpen }) {
         await logOut();
         router.push("/login");
     }
-    
-      useEffect(() => {
+
+    useEffect(() => {
         getUsuario()
-          .then((user: any) => {
-            setUserInfo(user.usuario as Usuario);
-          })
-          .catch(() => setUserInfo(null));
-      }, []);
+            .then((user: any) => {
+                setUserInfo(user.usuario as Usuario);
+            })
+            .catch(() => setUserInfo(null));
+    }, []);
 
     return (
         <nav
@@ -67,28 +67,34 @@ export default function Menu({ open, setOpen }) {
                         </Link>
                     </li>
                 </div>
+
+                {userInfo?.tipo === 'ADMIN' && (
+                    <>
+                        <li className="hover:bg-white transition-colors py-4 hover:text-blue-800">
+                            <Link
+                                href="/mostrar_preventivas"
+                                className="flex items-center gap-10 font-semibold text-xl pl-2"
+                            >
+                                <ClipboardList size={sizeIcon} />
+                                {open && <span>Preventivas</span>}
+                            </Link>
+                        </li>
+                        <li className="hover:bg-white transition-colors py-4 hover:text-blue-800">
+                            <Link
+                                href="/equipe"
+                                className="flex items-center gap-10 font-semibold text-xl pl-2"
+                            >
+                                <Users2 size={sizeIcon} />
+                                {open && <span>Equipe</span>}
+                            </Link>
+                        </li>
+                    </>
+                )}
+
                 <li className="hover:bg-white transition-colors py-4 hover:text-blue-800">
                     <Link
-                        href="/mostrar_preventivas"
-                        className="flex items-center gap-10 font-semibold text-xl pl-2"
-                    >
-                        <ClipboardList size={sizeIcon} />
-                        {open && <span>Preventivas</span>}
-                    </Link>
-                </li>
-                <li className="hover:bg-white transition-colors py-4 hover:text-blue-800">
-                    <Link
-                        href="/equipe"
-                        className="flex items-center gap-10 font-semibold text-xl pl-2"
-                    >
-                        <Users2 size={sizeIcon} />
-                        {open && <span>Equipe</span>}
-                    </Link>
-                </li>
-                <li className="hover:bg-white transition-colors py-4 hover:text-blue-800">
-                    <Link
-                    href={`/perfil/${userInfo ? userInfo.id : ""}`}                        
-                    className="flex items-center gap-10  font-semibold text-xl pl-2"
+                        href={`/perfil/${userInfo ? userInfo.id : ""}`}
+                        className="flex items-center gap-10  font-semibold text-xl pl-2"
                     >
                         <User size={sizeIcon} />
                         {open && <span>Perfil</span>}
