@@ -12,7 +12,6 @@ import ConfirmacaoExcluir from "@/components/modal/ConfirmacaoExcluir";
 import Editar from "@/components/modal/Editar";
 import Cadastro from "@/components/modal/Cadastro";
 import { criarUsuario, editarUsuario, excluirUsuario } from "@/services/usuario";
-import LoadingOverlay from "@/components/Loading";
 
 export default function MostrarEquipe() {
     const [open, setOpen] = useState(false);
@@ -27,17 +26,17 @@ export default function MostrarEquipe() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-  setLoading(true);
-  api.get("/usuarios/tecnicos")
-    .then(res => {
-      setTecnicos(res.data as any[]);
-      setLoading(false);
-    })
-    .catch(() => {
-      setTecnicos([]);
-      setLoading(false);
-    });
-}, []);
+        setLoading(true);
+        api.get("/usuarios/tecnicos")
+            .then(res => {
+                setTecnicos(res.data as any[]);
+                setLoading(false);
+            })
+            .catch(() => {
+                setTecnicos([]);
+                setLoading(false);
+            });
+    }, []);
 
     function handleSelecionar(id: number) {
         setSelecionado(id === selecionado ? null : id);
@@ -88,7 +87,7 @@ export default function MostrarEquipe() {
                         modoSelecao={modoSelecao}
                         selecionado={selecionado}
                         onSelecionar={handleSelecionar}
-                        onCardClick={(id) => router.push(`/perfil?id=${id}`)}                        
+                        onCardClick={(id) => router.push(`/perfil?id=${id}`)}
                         loading={loading}
                     />
 

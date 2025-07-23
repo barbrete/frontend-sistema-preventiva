@@ -1,5 +1,4 @@
 import { ImagePlus, X } from "lucide-react";
-import { useState } from "react";
 
 interface FotoUploaderProps {
   fotos: File[];

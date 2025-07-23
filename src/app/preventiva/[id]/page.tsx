@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, useEffect } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Header from "@/components/Header";
 import Menu from "@/components/Menu";
 import Footer from "@/components/Footer";
@@ -13,8 +13,8 @@ import { exportToPDF } from "@/utils/pdf";
 import { InfoCard } from "@/components/Cards";
 
 export default function PreventivaEspecifica() {
-  const searchParams = useSearchParams();
-  const id = searchParams.get("id");
+  const params = useParams();
+  const id = params.id as string;
   const [open, setOpen] = useState(false);
   const headerPadding = "pt-30";
   const [preventiva, setPreventiva] = useState<Preventiva | null>(null);

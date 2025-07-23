@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://localhost:3000/', // URL base do back-end
+    baseURL: 'https://preventiva-giga-ecf795263aac.herokuapp.com/', // URL base do back-end
     headers: {
         'Content-Type': 'application/json',
     },
@@ -9,7 +9,7 @@ const api = axios.create({
 });
 
 const apiUpload = axios.create({
-    baseURL: 'http://localhost:3000/',
+    baseURL: 'https://preventiva-giga-ecf795263aac.herokuapp.com',
 });
 
 export { axios, apiUpload }; 

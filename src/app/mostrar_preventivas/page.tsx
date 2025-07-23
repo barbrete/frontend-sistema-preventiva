@@ -1,19 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import LoadingOverlay from "@/components/Loading";
-import { Pencil, CheckCircle, XCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
 import api from "@/utils/axios";
 import Header from "@/components/Header";
 import Menu from "@/components/Menu";
 import Footer from "@/components/Footer";
-import {TabelaPreventivasGeral} from "@/components/Tabela";
+import { TabelaPreventivasGeral } from "@/components/Tabela";
 import { Preventiva } from "@/utils/Interfaces";
-import { buscarTecnicoPorId, buscarPreventivasPorTecnico } from "@/services/usuario";
 
 export default function MostrarPreventivas() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [open, setOpen] = useState(false);
   const headerPadding = "pt-24";
 
@@ -34,8 +30,6 @@ export default function MostrarPreventivas() {
     fetchPreventivas();
   }, []);
 
-  // if (loading)
-  //   return <LoadingOverlay show={true} text="Carregando preventivas..." />;
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 via-blue-300 to-blue-500 flex flex-col">
       <Menu open={open} setOpen={setOpen} />
@@ -49,13 +43,14 @@ export default function MostrarPreventivas() {
             <TabelaPreventivasGeral
               loading={loading}
               preventivas={preventivas}
-              onRowClick={(id) => router.push(`/preventiva?id=${id}`)}  
-          />
+              onRowClick={(id) => router.push(`/preventiva?id=${id}`)}
+            />
           </div>
         </div>
-        <div className="mb-20"/>
+        <div className="mb-20" />
       </main>
       <Footer />
     </div>
+
   );
 }

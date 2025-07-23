@@ -1,4 +1,3 @@
-import { useState } from "react";
 import CardTech from "./CardTech";
 import LoadingOverlay from "./Loading";
 
@@ -8,7 +7,7 @@ interface SelecaoTecnicoProps {
   selecionado: number | null;
   onSelecionar: (id: number) => void;
   onCardClick: (id: number) => void;
-loading: boolean;
+  loading: boolean;
 }
 
 export default function SelecaoTecnico({ tecnicos, modoSelecao, selecionado, onSelecionar, onCardClick,loading}: SelecaoTecnicoProps) {
