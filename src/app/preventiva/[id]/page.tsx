@@ -11,6 +11,7 @@ import { Car, User, FileText, Calendar, Camera, ArrowRightLeft, Shield, AlertTri
 import { salvarHorario, getHorario } from "@/utils/Horario";
 import { exportToPDF } from "@/utils/pdf";
 import { InfoCard } from "@/components/Cards";
+import Auth from "@/components/Auth";
 
 export default function PreventivaEspecifica() {
   const params = useParams();
@@ -57,6 +58,7 @@ export default function PreventivaEspecifica() {
       : "0";
 
   return (
+    <Auth>
     <div className="min-h-screen bg-gradient-to-br from-blue-100 via-blue-300 to-blue-500 flex flex-col">
       <Menu open={open} setOpen={setOpen} />
       <Header open={open} />
@@ -190,5 +192,6 @@ export default function PreventivaEspecifica() {
       </main>
       <Footer />
     </div>
+    </Auth>
   );
 }

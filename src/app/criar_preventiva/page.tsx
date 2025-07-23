@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { FileText, Gauge, AlertTriangle, CheckCircle, StickyNote } from "lucide-react";
 import Input from "@/components/Input";
 import Textarea from "@/components/TextArea";
@@ -10,11 +9,10 @@ import Menu from "@/components/Menu";
 import FotoUploader from "@/components/FotoUploader";
 import { usePreventivaForm } from "@/hooks/usePreventivaForm";
 import LoadingOverlay from "@/components/Loading";
+import Auth from "@/components/Auth";
 
 export default function CreatePreventiva() {
     const [loadingText, setLoadingText] = useState("Enviando preventiva...");
-
-    const router = useRouter();
     const [open, setOpen] = useState(false);
     const headerPadding = "pl-24";
     const hookResult = usePreventivaForm({
@@ -38,6 +36,7 @@ export default function CreatePreventiva() {
     const { form, setForm, errors, handleSubmit, loading } = hookResult;
 
     return (
+        <Auth>
         <div className="min-h-screen bg-gradient-to-br from-blue-100 via-blue-300 to-blue-500 flex flex-col">
             <LoadingOverlay show={loading} text={loadingText} />
             <Menu open={open} setOpen={setOpen} />
@@ -141,5 +140,6 @@ export default function CreatePreventiva() {
             </main>
             <Footer />
         </div>
+        </Auth>
     );
 }
