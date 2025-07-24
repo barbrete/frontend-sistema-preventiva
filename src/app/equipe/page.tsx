@@ -12,6 +12,7 @@ import ConfirmacaoExcluir from "@/components/modal/ConfirmacaoExcluir";
 import Editar from "@/components/modal/Editar";
 import Cadastro from "@/components/modal/Cadastro";
 import { criarUsuario, editarUsuario, excluirUsuario } from "@/services/usuario";
+import Auth from "@/components/Auth";
 
 export default function MostrarEquipe() {
     const [open, setOpen] = useState(false);
@@ -74,92 +75,94 @@ export default function MostrarEquipe() {
     }, [modoSelecao, selecionado, tecnicos]);
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-100 via-blue-300 to-blue-500 flex flex-col">
-            <Menu open={open} setOpen={setOpen} />
-            <Header open={open} />
-            <main className={`flex-1 w-full bg-white shadow-lg p-8 flex flex-col items-stretch mt-8 transition-all duration-300 ${open ? "pl-80 md:pl-64 sm:pl-45" : "pl-20 md:pl-20 sm:pl-16"} ${headerPadding}`}>
-                <div className="max-w-screen-xl mx-auto px-4 md:px-8">
-                    <h1 className="text-5xl text-blue-700 font-bold">Técnicos</h1>
-                    <div className="border-t-2 border-blue-200 mb-8 mt-8" />
+        <Auth apenasAdmin>
+            <div className="min-h-screen bg-gradient-to-br from-blue-100 via-blue-300 to-blue-500 flex flex-col">
+                <Menu open={open} setOpen={setOpen} />
+                <Header open={open} />
+                <main className={`flex-1 w-full bg-white shadow-lg p-8 flex flex-col items-stretch mt-8 transition-all duration-300 ${open ? "pl-80 md:pl-64 sm:pl-45" : "pl-20 md:pl-20 sm:pl-16"} ${headerPadding}`}>
+                    <div className="max-w-screen-xl mx-auto px-4 md:px-8">
+                        <h1 className="text-5xl text-blue-700 font-bold">Técnicos</h1>
+                        <div className="border-t-2 border-blue-200 mb-8 mt-8" />
 
-                    <SelecaoTecnico
-                        tecnicos={tecnicos}
-                        modoSelecao={modoSelecao}
-                        selecionado={selecionado}
-                        onSelecionar={handleSelecionar}
-                        onCardClick={(id) => router.push(`/perfil/${id}`)}
-                        loading={loading}
-                    />
+                        <SelecaoTecnico
+                            tecnicos={tecnicos}
+                            modoSelecao={modoSelecao}
+                            selecionado={selecionado}
+                            onSelecionar={handleSelecionar}
+                            onCardClick={(id) => router.push(`/perfil/${id}`)}
+                            loading={loading}
+                        />
 
-                    <div className="flex gap-10 w-full mt-20 justify-center">
-                        <RoundIconButton
-                            icon={<Plus size={50} className="text-white" />}
-                            label="Adicionar"
-                            onClick={() => setModalCadastro(true)}
-                        />
-                        <RoundIconButton
-                            icon={<Pencil size={38} className="text-white" />}
-                            label="Editar"
-                            active={modoSelecao === "editar"}
-                            onClick={() => setModoSelecao(modoSelecao === "editar" ? null : "editar")}
-                        />
-                        <RoundIconButton
-                            icon={<Trash size={38} className="text-white" />}
-                            label="Excluir"
-                            active={modoSelecao === "excluir"}
-                            onClick={() => setModoSelecao(modoSelecao === "excluir" ? null : "excluir")}
-                        />
+                        <div className="flex gap-10 w-full mt-20 justify-center">
+                            <RoundIconButton
+                                icon={<Plus size={50} className="text-white" />}
+                                label="Adicionar"
+                                onClick={() => setModalCadastro(true)}
+                            />
+                            <RoundIconButton
+                                icon={<Pencil size={38} className="text-white" />}
+                                label="Editar"
+                                active={modoSelecao === "editar"}
+                                onClick={() => setModoSelecao(modoSelecao === "editar" ? null : "editar")}
+                            />
+                            <RoundIconButton
+                                icon={<Trash size={38} className="text-white" />}
+                                label="Excluir"
+                                active={modoSelecao === "excluir"}
+                                onClick={() => setModoSelecao(modoSelecao === "excluir" ? null : "excluir")}
+                            />
+                        </div>
                     </div>
-                </div>
-            </main>
-            <ConfirmacaoExcluir
-                open={modalExcluir}
-                nome={tecnicoSelecionado?.name || ""}
-                onConfirm={async () => {
-                    await excluirUsuario(tecnicoSelecionado.id);
-                    atualizarTecnicos();
-                    setModalExcluir(false);
-                    setModoSelecao(null);
-                    setSelecionado(null);
-                }}
-                onCancel={() => {
-                    setModalExcluir(false);
-                    setModoSelecao(null);
-                    setSelecionado(null);
-                }}
-            />
+                </main>
+                <ConfirmacaoExcluir
+                    open={modalExcluir}
+                    nome={tecnicoSelecionado?.name || ""}
+                    onConfirm={async () => {
+                        await excluirUsuario(tecnicoSelecionado.id);
+                        atualizarTecnicos();
+                        setModalExcluir(false);
+                        setModoSelecao(null);
+                        setSelecionado(null);
+                    }}
+                    onCancel={() => {
+                        setModalExcluir(false);
+                        setModoSelecao(null);
+                        setSelecionado(null);
+                    }}
+                />
 
-            <Editar
-                open={modalEditar}
-                nomeInicial={tecnicoSelecionado?.name || ""}
-                emailInicial={tecnicoSelecionado?.email || ""}
-                tipoInicial={tecnicoSelecionado?.tipo || "TECNICO"}
-                ativoInicial={tecnicoSelecionado?.ativo ?? true}
-                onConfirm={async (novoNome, novoEmail, novoTipo, ativo) => {
-                    await editarUsuario(tecnicoSelecionado.id, { nome: novoNome, email: novoEmail, tipo: novoTipo, ativo });
-                    atualizarTecnicos();
-                    setModalEditar(false);
-                    setModoSelecao(null);
-                    setSelecionado(null);
-                }}
-                onCancel={() => {
-                    setModalEditar(false);
-                    setModoSelecao(null);
-                    setSelecionado(null);
-                }}
-            />
+                <Editar
+                    open={modalEditar}
+                    nomeInicial={tecnicoSelecionado?.name || ""}
+                    emailInicial={tecnicoSelecionado?.email || ""}
+                    tipoInicial={tecnicoSelecionado?.tipo || "TECNICO"}
+                    ativoInicial={tecnicoSelecionado?.ativo ?? true}
+                    onConfirm={async (novoNome, novoEmail, novoTipo, ativo) => {
+                        await editarUsuario(tecnicoSelecionado.id, { nome: novoNome, email: novoEmail, tipo: novoTipo, ativo });
+                        atualizarTecnicos();
+                        setModalEditar(false);
+                        setModoSelecao(null);
+                        setSelecionado(null);
+                    }}
+                    onCancel={() => {
+                        setModalEditar(false);
+                        setModoSelecao(null);
+                        setSelecionado(null);
+                    }}
+                />
 
-            <Cadastro
-                open={modalCadastro}
-                onConfirm={async (nome, email, tipo, ativo) => {
-                    await criarUsuario({ nome, email, tipo, ativo });
-                    atualizarTecnicos();
+                <Cadastro
+                    open={modalCadastro}
+                    onConfirm={async (nome, email, tipo, ativo) => {
+                        await criarUsuario({ nome, email, tipo, ativo });
+                        atualizarTecnicos();
 
-                    setModalCadastro(false);
-                }}
-                onCancel={() => setModalCadastro(false)}
-            />
-            <Footer />
-        </div>
+                        setModalCadastro(false);
+                    }}
+                    onCancel={() => setModalCadastro(false)}
+                />
+                <Footer />
+            </div>
+        </Auth>
     );
 }

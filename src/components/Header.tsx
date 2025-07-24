@@ -37,6 +37,11 @@ export default function Header({ open }: { open: boolean }) {
                   ADMIN
                 </span>
               )}
+              {userInfo.tipo === "TECNICO" && (
+                <span className="ml-2 px-3 py-1 rounded-full border border-blue-400 bg-blue-100 text-blue-900 text-xs font-bold shadow-md">
+                  TÉCNICO
+                </span>
+              )}
             </p>            
             <p className="text-sm text-gray-600">{userInfo.email}</p>
           </div>

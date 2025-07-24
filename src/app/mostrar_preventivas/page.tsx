@@ -7,6 +7,7 @@ import Menu from "@/components/Menu";
 import Footer from "@/components/Footer";
 import { TabelaPreventivasGeral } from "@/components/Tabela";
 import { Preventiva } from "@/utils/Interfaces";
+import Auth from "@/components/Auth";
 
 export default function MostrarPreventivas() {
   const router = useRouter();
@@ -31,26 +32,27 @@ export default function MostrarPreventivas() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-blue-300 to-blue-500 flex flex-col">
-      <Menu open={open} setOpen={setOpen} />
-      <Header open={open} />
-      <main className={`flex-1 w-full bg-white shadow-lg p-8 flex flex-col items-stretch mt-8 transition-all duration-300 ${open ? "pl-80 md:pl-64 sm:pl-45" : "pl-20 md:pl-20 sm:pl-16"} ${headerPadding}`}>
-        <div className="max-w-screen-xl mx-auto px-4 md:px-8">
-          <h1 className="text-6xl font-extrabold text-blue-700 text-center mb-10 drop-shadow-lg">
-            Todas as Preventivas Realizadas
-          </h1>
-          <div className="">
-            <TabelaPreventivasGeral
-              loading={loading}
-              preventivas={preventivas}
-              onRowClick={(id) => router.push(`/preventiva/${id}`)}
-            />
+    <Auth apenasAdmin>
+      <div className="min-h-screen bg-gradient-to-br from-blue-100 via-blue-300 to-blue-500 flex flex-col">
+        <Menu open={open} setOpen={setOpen} />
+        <Header open={open} />
+        <main className={`flex-1 w-full bg-white shadow-lg p-8 flex flex-col items-stretch mt-8 transition-all duration-300 ${open ? "pl-80 md:pl-64 sm:pl-45" : "pl-20 md:pl-20 sm:pl-16"} ${headerPadding}`}>
+          <div className="max-w-screen-xl mx-auto px-4 md:px-8">
+            <h1 className="text-6xl font-extrabold text-blue-700 text-center mb-10 drop-shadow-lg">
+              Todas as Preventivas Realizadas
+            </h1>
+            <div className="">
+              <TabelaPreventivasGeral
+                loading={loading}
+                preventivas={preventivas}
+                onRowClick={(id) => router.push(`/preventiva/${id}`)}
+              />
+            </div>
           </div>
-        </div>
-        <div className="mb-20" />
-      </main>
-      <Footer />
-    </div>
-
+          <div className="mb-20" />
+        </main>
+        <Footer />
+      </div>
+    </Auth>
   );
 }
