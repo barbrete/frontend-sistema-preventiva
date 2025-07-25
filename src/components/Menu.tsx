@@ -1,20 +1,30 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { Home, ClipboardList, Calendar, User, PanelRightOpen, List, LogOut, Users, Users2, UserCog } from "lucide-react";
+import { Home, ClipboardList, Calendar, User, PanelRightOpen, List, LogOut, Users, Users2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { logOut } from "@/services/auth"; 
+import { getUsuario, logOut } from "@/services/auth";
 import ConfirmacaoSair from "./modal/ConfirmacaoSair";
+import { Usuario } from "@/utils/Interfaces";
 
 export default function Menu({ open, setOpen }) {
     const router = useRouter();
     const [modalSair, setModalSair] = useState(false);
-    const sizeIcon = 35
+    const sizeIcon = 30
+    const [userInfo, setUserInfo] = useState<Usuario | null>(null);
 
     async function handleLogout() {
         await logOut();
         router.push("/login");
     }
+
+    useEffect(() => {
+        getUsuario()
+            .then((user: any) => {
+                setUserInfo(user.usuario as Usuario);
+            })
+            .catch(() => setUserInfo(null));
+    }, []);
 
     return (
         <nav
@@ -50,35 +60,41 @@ export default function Menu({ open, setOpen }) {
                     <li className="hover:bg-white transition-colors py-4 hover:text-blue-800">
                         <Link
                             href="/pagina_principal"
-                            className="flex items-center gap-10 font-semibold text-2xl pl-2"
+                            className="flex items-center gap-10 font-semibold text-xl pl-2"
                         >
                             <Home size={sizeIcon} className="" />
                             {open && <span>Início</span>}
                         </Link>
                     </li>
                 </div>
+
+                {userInfo?.tipo === 'ADMIN' && (
+                    <>
+                        <li className="hover:bg-white transition-colors py-4 hover:text-blue-800">
+                            <Link
+                                href="/mostrar_preventivas"
+                                className="flex items-center gap-10 font-semibold text-xl pl-2"
+                            >
+                                <ClipboardList size={sizeIcon} />
+                                {open && <span>Preventivas</span>}
+                            </Link>
+                        </li>
+                        <li className="hover:bg-white transition-colors py-4 hover:text-blue-800">
+                            <Link
+                                href="/equipe"
+                                className="flex items-center gap-10 font-semibold text-xl pl-2"
+                            >
+                                <Users2 size={sizeIcon} />
+                                {open && <span>Equipe</span>}
+                            </Link>
+                        </li>
+                    </>
+                )}
+
                 <li className="hover:bg-white transition-colors py-4 hover:text-blue-800">
                     <Link
-                        href="/preventivas"
-                        className="flex items-center gap-10 font-semibold text-2xl pl-2"
-                    >
-                        <ClipboardList size={sizeIcon} />
-                        {open && <span>Preventivas</span>}
-                    </Link>
-                </li>
-                <li className="hover:bg-white transition-colors py-4 hover:text-blue-800">
-                    <Link
-                        href="/visitas"
-                        className="flex items-center gap-10 font-semibold text-2xl pl-2"
-                    >
-                        <Users2 size={sizeIcon} />
-                        {open && <span>Equipe</span>}
-                    </Link>
-                </li>
-                <li className="hover:bg-white transition-colors py-4 hover:text-blue-800">
-                    <Link
-                        href="/perfil"
-                        className="flex items-center gap-10  font-semibold text-2xl pl-2"
+                        href={`/perfil/${userInfo ? userInfo.id : ""}`}
+                        className="flex items-center gap-10  font-semibold text-xl pl-2"
                     >
                         <User size={sizeIcon} />
                         {open && <span>Perfil</span>}
@@ -91,7 +107,7 @@ export default function Menu({ open, setOpen }) {
                     <li className="hover:bg-white transition-colors py-4 hover:text-blue-800">
                         <button
                             onClick={() => setModalSair(true)}
-                            className="flex items-center gap-10  font-semibold text-2xl pl-2"
+                            className="flex items-center gap-10  font-semibold text-xl pl-2"
                         >
                             <LogOut size={sizeIcon} />
                             {open && <span>Sair</span>}
