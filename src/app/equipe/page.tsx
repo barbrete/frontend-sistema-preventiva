@@ -5,7 +5,7 @@ import Header from "@/components/Header";
 import Menu from "@/components/Menu";
 import Footer from "@/components/Footer";
 import api from "@/utils/axios";
-import RoundIconButton from "@/components/Buttons";
+import {RoundIconButton} from "@/components/Buttons";
 import { Pencil, Plus, Trash } from "lucide-react";
 import SelecaoTecnico from "@/components/Selecao";
 import ConfirmacaoExcluir from "@/components/modal/ConfirmacaoExcluir";

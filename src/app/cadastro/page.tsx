@@ -5,6 +5,7 @@ import Card from "../../components/Cards";
 import { register } from "@/services/auth";
 import { useRouter } from "next/navigation";
 import { Eye, EyeClosed } from "lucide-react";
+import Footer from "@/components/Footer";
 
 export default function Cadastro() {
   const router = useRouter()
@@ -32,7 +33,7 @@ export default function Cadastro() {
 
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-blue-100 px-4">
+    <div className="min-h-screen flex flex-col flex-1 items-center justify-center bg-blue-100">
       <Card titulo="Cadastro"
         textoBotão="Fazer Login"
         legenda="Já tem uma conta?"
@@ -92,6 +93,7 @@ export default function Cadastro() {
           </button>
         </div>
       </Card>
+      <Footer/>
     </div>
   );
 }

@@ -1,20 +1,22 @@
 'use client'
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import React, { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import Menu from "@/components/Menu";
 import Footer from "@/components/Footer";
+import { motion } from "framer-motion";
 import Auth from "@/components/Auth";
 import { getUsuario } from "@/services/auth";
 import { Usuario } from "@/utils/Interfaces";
+import PainelEstatisticas from "@/components/Painel";
+import { AcoesDashboard } from "@/components/Buttons";
+import NotificacoesRecentes from "@/components/Notificacoes";
+import Calendario from "@/components/Calendario";
 
 export default function PaginaPrincipal() {
     const [open, setOpen] = useState(false);
-    const router = useRouter();
-    const [userInfo, setUserInfo] = useState<Usuario | null>(null);
-
-    const menuMargin = open ? "ml-80 md:ml-64 sm:ml-45" : "ml-20 md:ml-20 sm:ml-16";
+    const menuMargin = open ? "ml-80 md:ml-60 sm:ml-45" : "ml-24 ";
     const headerPadding = "pt-24";
+    const [userInfo, setUserInfo] = useState<Usuario | null>(null);
 
     useEffect(() => {
         getUsuario()
@@ -24,42 +26,42 @@ export default function PaginaPrincipal() {
             .catch(() => setUserInfo(null));
     }, []);
 
+    const [notificacoes, setNotificacoes] = useState<string[]>([
+        "Preventiva #123 criada com sucesso.",
+        "Equipe atualizada.",
+
+    ]);
+
     return (
         <Auth>
             <div className="min-h-screen bg-gradient-to-br from-blue-100 via-blue-300 to-blue-500 flex flex-col">
                 <Menu open={open} setOpen={setOpen} />
                 <Header open={open} />
-                <main className={`flex-1 w-full bg-white shadow-lg p-8 flex flex-col items-center mt-8 transition-all duration-300 ${menuMargin} ${headerPadding}`}>
-                    <h1 className="text-3xl font-bold text-blue-700 mb-4">Sistema Preventiva</h1>
-                    <p className="text-lg text-blue-900 mb-8 text-center">
-                        Bem-vindo ao sistema de gestão preventiva da Giga+! Aqui você pode registrar, visualizar e acompanhar as preventivas de sua equipe.
-                    </p>
+                <main className={`flex-1 w-full max-w-7xl mx-auto p-4 transition-all duration-300  ${menuMargin} ${headerPadding}`}>
+                    <motion.div
+                        initial={{ opacity: 0, y: 40 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                    >
+                        <div>
+                            <h1 className="text-3xl font-bold text-deepNavy">Preventivas Giga+</h1>
+                            <p className="text-md text-navyBlue">
+                                Bem-vindo ao sistema de gestão preventiva da Giga+!<br /> Aqui você pode registrar, visualizar e acompanhar as preventivas de sua equipe.
+                            </p>
+                        </div>
+                        <div className="w-2/3">
+                            <AcoesDashboard userInfo={userInfo} />
+                        </div>
+                        <div className="w-1/2">
 
-                    <div className="flex gap-12">
-                        <button
-                            onClick={() => router.push("/criar_preventiva")}
-                            className="mb-8 px-8 py-5 w-56 rounded-xl bg-gradient-to-r from-blue-600 to-blue-400 text-white text-2xl font-bold shadow-lg hover:scale-105 hover:from-blue-700 hover:to-blue-500 transition-all duration-200"
-                        >
-                            Criar Preventiva
-                        </button>
-                        {userInfo?.tipo === 'ADMIN' && (
-                            <>
-                                <button
-                                    onClick={() => router.push("/equipe")}
-                                    className="mb-8 px-8 py-5 w-56 rounded-xl bg-gradient-to-r from-blue-600 to-blue-400 text-white text-2xl font-bold shadow-lg hover:scale-105 hover:from-blue-700 hover:to-blue-500 transition-all duration-200"
-                                >
-                                    Equipe
-                                </button>
+                            <NotificacoesRecentes notificacoes={notificacoes} />
+                        </div>                           
+                         <Calendario />
 
-                                <button
-                                    onClick={() => router.push("/mostrar_preventivas")}
-                                    className="mb-8 px-8 py-5 w-56 rounded-xl bg-gradient-to-r from-blue-600 to-blue-400 text-white text-2xl font-bold shadow-lg hover:scale-105 hover:from-blue-700 hover:to-blue-500 transition-all duration-200"
-                                >
-                                    Preventiva
-                                </button>
-                            </>
-                        )}
-                    </div>
+
+                        <PainelEstatisticas />
+
+                    </motion.div>
                 </main>
                 <Footer />
             </div>
