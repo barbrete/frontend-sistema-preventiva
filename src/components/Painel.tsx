@@ -40,58 +40,56 @@ export default function PainelEstatisticas() {
   }, []);
 
   return (
-    <section className="w-full max-w-5xl mx-auto mt-8">
-      <h2 className="text-3xl font-bold text-neonGreen mb-8 text-center tracking-tight drop-shadow-lg">
-        Painel de Estatísticas
-      </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 bg-blue-200 p-10 rounded-xl">
-        <CardEstatistica
-          label="Preventivas"
-          valor={stats.totalPreventivas}
-          icon={<BarChart3 className="w-10 h-10 text-neonGreen" />}
-          bg="bg-deepNavy"
-        />
-        <CardEstatistica
-          label="Usuários Totais"
-          valor={stats.totalUsuarios}
-          icon={<Users className="w-10 h-10 text-royalBlue" />}
-          bg="bg-midnight"
-        />
-        <CardEstatistica
-          label="Ativos"
-          valor={stats.usuariosAtivos}
-          icon={<UserCheck className="w-10 h-10 text-neonGreen" />}
-          bg="bg-deepNavy"
-        />
-        <CardEstatistica
-          label="Desligados"
-          valor={stats.usuariosInativos}
-          icon={<UserX className="w-10 h-10 text-danger text-red-800" />}
-          bg="bg-midnight"
-        />
+    <section className="w-full max-w-5xl">
+      <div className="">
+        <h2 className="text-xl font-bold text-deepNavy text-center tracking-tight drop-shadow-lg">
+          Estatísticas
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-8 p-5 rounded-xl">
+          <CardEstatistica
+            label="Preventivas"
+            valor={stats.totalPreventivas}
+            icon={<BarChart3 className="w-6 h-6 text-neonGreen" />}
+            bg="bg-white"
+            corIcone=""
+          />
+          <CardEstatistica
+            label="Usuários Totais"
+            valor={stats.totalUsuarios}
+            icon={<Users className="w-6 h-6 text-royalBlue" />}
+            bg="bg-white"
+            corIcone=""
+          />
+          <CardEstatistica
+            label="Ativos"
+            valor={stats.usuariosAtivos}
+            icon={<UserCheck className="w-6 h-6 text-neonGreen" />}
+            bg="bg-white"
+            corIcone=""
+          />
+          <CardEstatistica
+            label="Desligados"
+            valor={stats.usuariosInativos}
+            icon={<UserX className="w-6 h-6 text-danger text-red-800" />}
+            bg="bg-white"
+            corIcone=""
+          />
+        </div>
       </div>
     </section>
   );
 }
 
-function CardEstatistica({
-  label,
-  valor,
-  icon,
-  bg,
-}: {
-  label: string;
-  valor: number;
-  icon: React.ReactNode;
-  bg: string;
-}) {
+function CardEstatistica({ label, valor, icon, bg, corIcone }: { label: string; valor: number; icon: React.ReactNode; bg: string; corIcone: string }) {
   return (
-    <div
-      className={`${bg} rounded-2xl shadow-xl p-8 flex flex-col items-center justify-center transition-transform hover:scale-105 border-2 border-neonGreen`}
-    >
-      <div className="mb-2">{icon}</div>
-      <span className="text-4xl font-extrabold text-neonGreen drop-shadow">{valor}</span>
-      <span className="text-base text-white mt-2 font-medium">{label}</span>
+    <div className={`${bg} rounded-2xl shadow-xl flex flex-col items-center justify-center transition-transform hover:scale-105 border`}>
+      <div className="flex items-center justify-center gap-2 mb-2">
+        <div className={`${corIcone} bg-gray-100 rounded-full shadow p-2 flex items-center justify-center`}>
+          {icon}
+        </div>
+        <span className="text-base text-deepNavy font-medium">{label}</span>
+      </div>
+      <span className="text-2xl font-extrabold text-neonGreen drop-shadow">{valor}</span>
     </div>
   );
 }

@@ -30,12 +30,12 @@ function DashboardButton({ icon, title, description, gradient, textColor, onClic
   return (
     <motion.div
       whileHover={{ scale: 1.04 }}
-      className={`p-2 rounded-lg shadow-md ${gradient} transition cursor-pointer flex flex-col items-start min-h-[90px] max-w-[250px]`}
+      className={`p-2 rounded-xl shadow-md ${gradient} transition cursor-pointer flex flex-col items-start min-h-[90px] max-w-[250px]`}
       onClick={onClick}
     >
       <span className="mb-1">{icon}</span>
       <h3 className={`text-xs font-bold ${textColor} mb-0.5`}>{title}</h3>
-      <p className={`text-[10px] ${textColor}/80`}>{description}</p>
+      <p className={`text-[10px] ${textColor}`}>{description}</p>
     </motion.div>
   );
 }
