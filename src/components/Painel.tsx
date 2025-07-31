@@ -49,30 +49,30 @@ export default function PainelEstatisticas() {
           <CardEstatistica
             label="Preventivas"
             valor={stats.totalPreventivas}
-            icon={<BarChart3 className="w-6 h-6 text-neonGreen" />}
-            bg="bg-white"
-            corIcone=""
+            icon={<BarChart3 size={25} />}
+            bg="bg-blue-50"
+            corIcone="text-yellow-500"
           />
           <CardEstatistica
-            label="Usuários Totais"
+            label="Usuários"
             valor={stats.totalUsuarios}
-            icon={<Users className="w-6 h-6 text-royalBlue" />}
-            bg="bg-white"
-            corIcone=""
+            icon={<Users size={25} />}
+            bg="bg-blue-50"
+            corIcone="text-royalBlue"
           />
           <CardEstatistica
             label="Ativos"
             valor={stats.usuariosAtivos}
-            icon={<UserCheck className="w-6 h-6 text-neonGreen" />}
-            bg="bg-white"
-            corIcone=""
+            icon={<UserCheck size={25} />}
+            bg="bg-blue-50"
+            corIcone="text-neonGreen"
           />
           <CardEstatistica
             label="Desligados"
             valor={stats.usuariosInativos}
-            icon={<UserX className="w-6 h-6 text-danger text-red-800" />}
-            bg="bg-white"
-            corIcone=""
+            icon={<UserX size={25} />}
+            bg="bg-blue-50"
+            corIcone="text-red-500"
           />
         </div>
       </div>
@@ -80,16 +80,21 @@ export default function PainelEstatisticas() {
   );
 }
 
-function CardEstatistica({ label, valor, icon, bg, corIcone }: { label: string; valor: number; icon: React.ReactNode; bg: string; corIcone: string }) {
+function CardEstatistica({ label, valor, icon, bg, corIcone, }: { label: string; valor: number; icon: React.ReactNode; bg: string; corIcone: string; }) {
   return (
-    <div className={`${bg} rounded-2xl shadow-xl flex flex-col items-center justify-center transition-transform hover:scale-105 border`}>
-      <div className="flex items-center justify-center gap-2 mb-2">
-        <div className={`${corIcone} bg-gray-100 rounded-full shadow p-2 flex items-center justify-center`}>
+    <div
+      className={`
+        relative overflow-hidden rounded-xl shadow flex flex-col items-start justify-between min-h-[90px] max-w-[220px] p-4 border border-blue-100
+        ${bg} transition-all duration-200 hover:shadow-xl hover:-translate-y-1 group
+      `}
+    >
+      <div className="flex items-center justify-center gap-2 mb-1">
+        <div className={`w-9 h-9 flex items-center justify-center rounded-3xl shadow ${corIcone} bg-white/90 group-hover:bg-white transition`}>
           {icon}
         </div>
-        <span className="text-base text-deepNavy font-medium">{label}</span>
+        <span className="text-md text-deepNavy font-semibold">{label}</span>
       </div>
-      <span className="text-2xl font-extrabold text-neonGreen drop-shadow">{valor}</span>
+      <span className="text-2xl font-bold text-deepNavy mt-1 mx-auto">{valor}</span>
     </div>
   );
 }

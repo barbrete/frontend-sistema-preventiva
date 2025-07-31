@@ -56,7 +56,7 @@ export default function PaginaPrincipal() {
                                 </div>
 
                                 <div className="mt-6 bg bg-white rounded-xl p-4">
-                                    <h2>Botões de ação</h2>
+                                    <h2 className="text-xl font-bold text-deepNavy mb-4">Botões de ação</h2>
                                     <AcoesDashboard userInfo={userInfo} />
                                 </div>
 
