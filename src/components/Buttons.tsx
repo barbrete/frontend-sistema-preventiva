@@ -29,16 +29,21 @@ function DashboardButton({ icon, title, description, gradient, textColor, onClic
   icon: React.ReactNode; title: string; description: string; gradient: string; textColor: string; onClick: () => void;}) {
   return (
     <motion.div
-      whileHover={{ scale: 1.04 }}
-      className={`p-4 rounded-2xl shadow-md ${gradient} transition-all duration-200 group cursor-pointer flex flex-col items-start min-h-[90px] max-w-[250px]`}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      className={`relative p-4 md:p-5 rounded-xl md:rounded-2xl shadow-md ${gradient} transition-all duration-200 group cursor-pointer flex flex-col items-start justify-between min-h-[100px] md:min-h-[120px] w-full`}
       onClick={onClick}
     >
-      <span className="mb-1">{icon}</span>
-      <h3 className={`text-md font-bold ${textColor} mb-0.5`}>{title}</h3>
-      <p className={`text-xs ${textColor}`}>{description}</p>
-      <span className="absolute right-4 top-4 opacity-0 group-hover:opacity-100 transition text-blue-400 text-lg font-bold">
-        <ChevronRight size={25} color="white"/>
-      </span>
+      <div className="flex items-start justify-between w-full">
+        <div className="flex-1">
+          <span className="mb-2 block">{icon}</span>
+          <h3 className={`text-sm md:text-base font-bold ${textColor} mb-1 leading-tight`}>{title}</h3>
+          <p className={`text-xs md:text-sm ${textColor} opacity-90 leading-relaxed`}>{description}</p>
+        </div>
+        <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 ml-2">
+          <ChevronRight size={20} color="white"/>
+        </span>
+      </div>
     </motion.div>
   );
 }
@@ -47,9 +52,9 @@ export function AcoesDashboard({ userInfo }: { userInfo: any }) {
   const router = useRouter();
 
   return (
-    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 justify-start">
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
       <DashboardButton
-        icon={<ClipboardList className="w-6 h-6 text-neonGreen" />}
+        icon={<ClipboardList className="w-5 h-5 md:w-6 md:h-6 text-neonGreen" />}
         title="Criar Preventiva"
         description="Inicie uma nova preventiva para a sua equipe."
         gradient="bg-gradient-to-br from-deepNavy to-lightDeepNavy"
@@ -60,7 +65,7 @@ export function AcoesDashboard({ userInfo }: { userInfo: any }) {
       {userInfo?.tipo === 'ADMIN' && (
         <>
           <DashboardButton
-            icon={<ClipboardPlus className="w-6 h-6 text-deepNavy" />}
+            icon={<ClipboardPlus className="w-5 h-5 md:w-6 md:h-6 text-deepNavy" />}
             title="Mostrar Preventivas"
             description="Consulte as preventivas criadas e seus detalhes."
             gradient="bg-gradient-to-br from-neonGreen to-darkNeonGreen"
@@ -68,7 +73,7 @@ export function AcoesDashboard({ userInfo }: { userInfo: any }) {
             onClick={() => router.push('/mostrar_preventivas')}
           />
           <DashboardButton
-            icon={<Users className="w-6 h-6 text-white" />}
+            icon={<Users className="w-5 h-5 md:w-6 md:h-6 text-white" />}
             title="Equipe"
             description="Veja os membros da sua equipe e suas ações."
             gradient="bg-gradient-to-br from-royalBlue to-deepNavy"

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import api from "@/utils/axios";
-import { Users, UserCheck, UserX, BarChart3 } from "lucide-react";
+import { Users, UserCheck, UserX, BarChart3, TrendingUp } from "lucide-react";
 
 type Stats = {
   totalPreventivas: number;
@@ -40,61 +41,123 @@ export default function PainelEstatisticas() {
   }, []);
 
   return (
-    <section className="w-full max-w-5xl">
-      <div className="">
-        <h2 className="text-xl font-bold text-deepNavy text-center tracking-tight drop-shadow-lg">
-          Estatísticas
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-8 p-5 rounded-xl">
-          <CardEstatistica
-            label="Preventivas"
-            valor={stats.totalPreventivas}
-            icon={<BarChart3 size={25} />}
-            bg="bg-blue-50"
-            corIcone="text-yellow-500"
-          />
-          <CardEstatistica
-            label="Usuários"
-            valor={stats.totalUsuarios}
-            icon={<Users size={25} />}
-            bg="bg-blue-50"
-            corIcone="text-royalBlue"
-          />
-          <CardEstatistica
-            label="Ativos"
-            valor={stats.usuariosAtivos}
-            icon={<UserCheck size={25} />}
-            bg="bg-blue-50"
-            corIcone="text-neonGreen"
-          />
-          <CardEstatistica
-            label="Desligados"
-            valor={stats.usuariosInativos}
-            icon={<UserX size={25} />}
-            bg="bg-blue-50"
-            corIcone="text-red-500"
-          />
+    <section className="w-full">
+      <div className="mb-6">
+        <div className="flex items-center gap-2 mb-4">
+          <div className="w-8 h-8 bg-gradient-to-r from-royalBlue to-deepNavy rounded-lg flex items-center justify-center">
+            <TrendingUp size={18} className="text-white" />
+          </div>
+          <h2 className="text-xl font-bold text-deepNavy tracking-tight">
+            Estatísticas do Sistema
+          </h2>
         </div>
+        
+        <motion.div 
+          className="grid grid-cols-2 gap-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, staggerChildren: 0.1 }}
+        >
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+            <CardEstatistica
+              label="Preventivas"
+              valor={stats.totalPreventivas}
+              icon={<BarChart3 size={22} />}
+              gradient="from-amber-400 to-orange-500"
+              iconBg="bg-amber-100"
+              iconColor="text-amber-600"
+            />
+          </motion.div>
+          
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+            <CardEstatistica
+              label="Usuários"
+              valor={stats.totalUsuarios}
+              icon={<Users size={22} />}
+              gradient="from-royalBlue to-deepNavy"
+              iconBg="bg-blue-100"
+              iconColor="text-royalBlue"
+            />
+          </motion.div>
+          
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+            <CardEstatistica
+              label="Ativos"
+              valor={stats.usuariosAtivos}
+              icon={<UserCheck size={22} />}
+              gradient="from-neonGreen to-darkNeonGreen"
+              iconBg="bg-green-100"
+              iconColor="text-neonGreen"
+            />
+          </motion.div>
+          
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
+            <CardEstatistica
+              label="Desligados"
+              valor={stats.usuariosInativos}
+              icon={<UserX size={22} />}
+              gradient="from-red-400 to-red-600"
+              iconBg="bg-red-100"
+              iconColor="text-red-500"
+            />
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );
 }
 
-function CardEstatistica({ label, valor, icon, bg, corIcone, }: { label: string; valor: number; icon: React.ReactNode; bg: string; corIcone: string; }) {
+function CardEstatistica({ 
+  label, 
+  valor, 
+  icon, 
+  gradient, 
+  iconBg, 
+  iconColor 
+}: { 
+  label: string; 
+  valor: number; 
+  icon: React.ReactNode; 
+  gradient: string; 
+  iconBg: string; 
+  iconColor: string; 
+}) {
   return (
-    <div
-      className={`
-        relative overflow-hidden rounded-xl shadow flex flex-col items-start justify-between min-h-[90px] max-w-[220px] p-4 border border-blue-100
-        ${bg} transition-all duration-200 hover:shadow-xl hover:-translate-y-1 group
-      `}
+    <motion.div
+      className="group relative overflow-hidden rounded-2xl p-4 h-24 cursor-pointer"
+      whileHover={{ scale: 1.02, y: -2 }}
+      whileTap={{ scale: 0.98 }}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
     >
-      <div className="flex items-center justify-center gap-2 mb-1">
-        <div className={`w-9 h-9 flex items-center justify-center rounded-3xl shadow ${corIcone} bg-white/90 group-hover:bg-white transition`}>
-          {icon}
+      {/* Background gradient */}
+      <div className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-90 group-hover:opacity-100 transition-opacity duration-300`} />
+      
+      {/* Subtle pattern overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
+      
+      {/* Glowing effect on hover */}
+      <div className="absolute inset-0 rounded-2xl group-hover:shadow-lg group-hover:shadow-black/20 transition-all duration-300" />
+      
+      {/* Content */}
+      <div className="relative z-10 flex items-center justify-between h-full">
+        <div className="flex flex-col justify-center flex-1">
+          <span className="text-white/90 text-xs font-medium uppercase tracking-wide">
+            {label}
+          </span>
+          <span className="text-white text-2xl font-bold mt-1">
+            {valor}
+          </span>
         </div>
-        <span className="text-md text-deepNavy font-semibold">{label}</span>
+        
+        <div className={`${iconBg} w-12 h-12 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+          <div className={iconColor}>
+            {icon}
+          </div>
+        </div>
       </div>
-      <span className="text-2xl font-bold text-deepNavy mt-1 mx-auto">{valor}</span>
-    </div>
+      
+      {/* Bottom highlight */}
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/30 group-hover:h-2 transition-all duration-300" />
+    </motion.div>
   );
 }

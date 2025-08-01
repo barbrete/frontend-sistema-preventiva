@@ -2,3 +2,62 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .text-responsive-xl {
+    @apply text-2xl;
+  }
+  
+  .text-responsive-lg {
+    @apply text-lg;
+  }
+  
+  .text-responsive-base {
+    @apply text-sm;
+  }
+  
+  @media (min-width: 768px) {
+    .text-responsive-xl {
+      @apply text-3xl;
+    }
+    
+    .text-responsive-lg {
+      @apply text-xl;
+    }
+    
+    .text-responsive-base {
+      @apply text-base;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .text-responsive-xl {
+      @apply text-4xl;
+    }
+    
+    .text-responsive-lg {
+      @apply text-2xl;
+    }
+    
+    .text-responsive-base {
+      @apply text-lg;
+    }
+  }
+  
+  @media (min-width: 1280px) {
+    .text-responsive-xl {
+      @apply text-5xl;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .mobile-padding {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .mobile-text {
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+}

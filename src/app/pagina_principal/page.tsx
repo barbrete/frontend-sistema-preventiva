@@ -10,13 +10,12 @@ import { Usuario } from "@/utils/Interfaces";
 import PainelEstatisticas from "@/components/Painel";
 import { AcoesDashboard } from "@/components/Buttons";
 import NotificacoesRecentes from "@/components/Notificacoes";
-import GraficoPreventivas from "@/components/Graficos";
 import GraficoArea from "@/components/Graficos";
 
 export default function PaginaPrincipal() {
     const [open, setOpen] = useState(false);
-    const menuMargin = open ? "ml-80 md:ml-60 sm:ml-45" : "ml-24 ";
-    const headerPadding = "pt-24";
+    const menuMargin = open ? "ml-80 md:ml-60 sm:ml-45" : "ml-16 md:ml-24";
+    const headerPadding = "pt-20 md:pt-24";
     const [userInfo, setUserInfo] = useState<Usuario | null>(null);
 
     useEffect(() => {
@@ -38,38 +37,102 @@ export default function PaginaPrincipal() {
             <div className="min-h-screen bg-gradient-to-b from-offWhite to-royalBlue flex flex-col">
                 <Menu open={open} setOpen={setOpen} />
                 <Header open={open} />
-                <main className={`flex-1 w-full max-w-7xl mx-auto p-4 transition-all duration-300  ${menuMargin} ${headerPadding}`}>
+                <main className={`flex-1 w-[95%]  px-16 sm:px-6 lg:px-8 py-4 md:py-6 transition-all duration-300 ${menuMargin} ${headerPadding}`}>
                     <motion.div
                         initial={{ opacity: 0, y: 40 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
+                        className="space-y-6"
                     >
-                        <div className="w-full flex flex-col md:flex-row md:justify-normal ">
-                            {/* Esquerda: texto, botões, notificações */}
-                            <div className="w-full md:w-[50rem] flex flex-col mb-4">
-                                <div className="gap-2 bg-white rounded-xl p-4">
-                                    <h1 className="text-3xl font-bold text-deepNavy mb-2">Preventivas Giga+</h1>
-                                    <p className="text-md text-navyBlue mb-2 ">
-                                        Bem-vindo ao sistema de gestão preventiva da Giga+!<br />
-                                        Aqui você pode registrar, visualizar e acompanhar as preventivas de sua equipe.
-                                    </p>
-                                </div>
+                        {/* Hero Section */}
+                        <motion.div 
+                            className="relative overflow-hidden bg-gradient-to-br from-deepNavy via-lightDeepNavy to-royalBlue rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-2xl"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.2 }}
+                        >
+                            
+                            <div className="relative z-10">
+                                <motion.h1 
+                                    className="text-responsive-xl font-bold text-white mb-3 md:mb-4 leading-tight"
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: 0.4 }}
+                                >
+                                    Preventivas <span className="text-neonGreen">Giga+</span>
+                                </motion.h1>
+                                <motion.p 
+                                    className="text-responsive-base text-white/90 max-w-2xl leading-relaxed"
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: 0.6 }}
+                                >
+                                    Bem-vindo ao sistema de gestão preventiva da Giga+! <br className="hidden md:block" />
+                                    Aqui você pode registrar, visualizar e acompanhar as preventivas de sua equipe 
+                                    de forma eficiente e organizada.
+                                </motion.p>
+                            </div>
+                        </motion.div>
 
-                                <div className="mt-6 bg bg-white rounded-xl p-4">
-                                    <h2 className="text-xl font-bold text-deepNavy mb-4">Botões de ação</h2>
+                        <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4 md:gap-6">
+                            <div className="lg:col-span-2 space-y-4 md:space-y-6">
+                                <motion.div 
+                                    className="bg-white/95 backdrop-blur-sm rounded-xl md:rounded-2xl p-4 md:p-6 shadow-lg border border-white/20"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.8 }}
+                                >
+                                    <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
+                                        <h2 className="text-responsive-lg font-bold text-deepNavy">Ações Rápidas</h2>
+                                    </div>
                                     <AcoesDashboard userInfo={userInfo} />
-                                </div>
+                                </motion.div>
 
-                                <div className="mt-6 w-full">
+                                {/* Notifications Section */}
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 1.0 }}
+                                >
                                     <NotificacoesRecentes notificacoes={notificacoes} />
-                                </div>
+                                </motion.div>
                             </div>
 
-                            <div className="w-full md:w-1/3 md:mr-8 md:ml-8 flex-shrink-0 flex flex-col gap-6 bg-white p-4 rounded-xl">
-                                <PainelEstatisticas />
-                                <GraficoArea />
+                            <div className="space-y-4 md:space-y-6">
+                                {/* Stats Panel */}
+                                <motion.div 
+                                    className="bg-white/95 backdrop-blur-sm rounded-xl md:rounded-2xl p-4 md:p-6 shadow-lg border border-white/20"
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: 0.8 }}
+                                >
+                                    <PainelEstatisticas />
+                                </motion.div>
+
+                                {/* Chart Section */}
+                                <motion.div 
+                                    className="bg-white/95 backdrop-blur-sm rounded-xl md:rounded-2xl p-4 md:p-6 shadow-lg border border-white/20"
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: 1.0 }}
+                                >
+                                    <GraficoArea />
+                                </motion.div>
                             </div>
                         </div>
+
+                        <motion.div 
+                            className="flex justify-center pt-8"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 1.2 }}
+                        >
+                            <div className="flex space-x-2">
+                                <div className="w-2 h-2 bg-neonGreen rounded-full animate-pulse" />
+                                <div className="w-2 h-2 bg-royalBlue rounded-full animate-pulse" style={{ animationDelay: '0.2s' }} />
+                                <div className="w-2 h-2 bg-deepNavy rounded-full animate-pulse" style={{ animationDelay: '0.4s' }} />
+                            </div>
+                        </motion.div>
                     </motion.div>
                 </main>
                 <Footer />
