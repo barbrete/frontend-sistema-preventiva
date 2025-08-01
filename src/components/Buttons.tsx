@@ -1,7 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { ChevronRight, ClipboardList, ClipboardPlus, Users } from "lucide-react";
+import { ChevronRight, ClipboardList, ClipboardPaste, ClipboardPlus, Users } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Usuario } from "@/utils/Interfaces";
 
 interface RoundIconButtonProps {
   icon: React.ReactNode;
@@ -25,8 +26,9 @@ export function RoundIconButton({ icon, label, onClick, active = false }: RoundI
   );
 }
 
-function DashboardButton({ icon, title, description, gradient, textColor, onClick,}: {
-  icon: React.ReactNode; title: string; description: string; gradient: string; textColor: string; onClick: () => void;}) {
+function DashboardButton({ icon, title, description, gradient, textColor, onClick, }: {
+  icon: React.ReactNode; title: string; description: string; gradient: string; textColor: string; onClick: () => void;
+}) {
   return (
     <motion.div
       whileHover={{ scale: 1.02 }}
@@ -41,14 +43,14 @@ function DashboardButton({ icon, title, description, gradient, textColor, onClic
           <p className={`text-xs md:text-sm ${textColor} opacity-90 leading-relaxed`}>{description}</p>
         </div>
         <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 ml-2">
-          <ChevronRight size={20} color="white"/>
+          <ChevronRight size={20} color="white" />
         </span>
       </div>
     </motion.div>
   );
 }
 
-export function AcoesDashboard({ userInfo }: { userInfo: any }) {
+export function AcoesDashboard({ userInfo }: { userInfo: Usuario }) {
   const router = useRouter();
 
   return (
@@ -61,6 +63,18 @@ export function AcoesDashboard({ userInfo }: { userInfo: any }) {
         textColor="text-neonGreen"
         onClick={() => router.push('/criar_preventiva')}
       />
+
+      {userInfo?.tipo === 'TECNICO' && (
+        <>
+          <DashboardButton
+            icon={<ClipboardPaste className="w-5 h-5 md:w-6 md:h-6 text-deepNavy" />}
+            title="Ver minhas preventivas"
+            description="Gerencie e acompanhe suas preventivas pessoais."
+            gradient="bg-gradient-to-br from-offWhite to-darkNeonGreen "  
+            textColor="text-deepNavy"
+            onClick={() => router.push(`/perfil/${userInfo.id}`)}
+          />
+        </>)}
 
       {userInfo?.tipo === 'ADMIN' && (
         <>

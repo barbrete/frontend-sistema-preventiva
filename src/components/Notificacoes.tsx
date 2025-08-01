@@ -10,10 +10,9 @@ export default function NotificacoesRecentes({ notificacoes }: { notificacoes: s
       transition={{ duration: 0.5 }}
     >
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 bg-gradient-to-r from-neonGreen to-darkNeonGreen rounded-xl flex items-center justify-center">
-          <Bell className="text-white w-5 h-5" />
-        </div>
-        <h2 className="text-2xl font-bold text-deepNavy">Notificações Recentes</h2>
+          <Bell size={27} className="text-[#00105a]" />
+  
+        <h2 className="text-xl font-bold text-deepNavy">Notificações Recentes</h2>
       </div>
       
       {notificacoes.length === 0 ? (

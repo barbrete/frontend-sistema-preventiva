@@ -1,25 +1,15 @@
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { motion } from 'framer-motion';
-import { TrendingUp } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 
-// Dados de exemplo
-const dadosExemplo = [
-    { mes: "Jan", valor: 20 },
-    { mes: "Fev", valor: 35 },
-    { mes: "Mar", valor: 30 },
-    { mes: "Abr", valor: 45 },
-    { mes: "Mai", valor: 50 },
-    { mes: "Jun", valor: 65 },
-    { mes: "Jul", valor: 73 },
-    { mes: "Ago", valor: 60 }
-];
+const dadosExemplo = [];
 
 export default function GraficoArea({ dados = dadosExemplo }: { dados?: { mes: string, valor: number }[] }) {
     return (
         <div className="w-full">
             <div className="flex items-center gap-2 mb-6">
                 <div className="w-8 h-8 bg-gradient-to-r from-neonGreen to-darkNeonGreen rounded-lg flex items-center justify-center">
-                    <TrendingUp size={18} className="text-white" />
+                    <ShieldCheck size={18} color='#00105a' />
                 </div>
                 <h3 className="text-xl font-bold text-deepNavy tracking-tight">
                     Preventivas por Mês
@@ -34,7 +24,7 @@ export default function GraficoArea({ dados = dadosExemplo }: { dados?: { mes: s
             >
                 <div className="absolute inset-0 bg-gradient-to-br from-deepNavy/5 to-royalBlue/5 rounded-xl" />
                 <ResponsiveContainer width="100%" height={240}>
-                    <AreaChart data={dados} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                    <AreaChart data={dados} margin={{ top: 10, right: 2, left: -20, bottom: 0 }}>
                         <defs>
                             <linearGradient id="colorValor" x1="0" y1="0" x2="0" y2="1">
                                 <stop offset="5%" stopColor="#00105a" stopOpacity={0.8} />

@@ -10,7 +10,7 @@ import { Usuario } from "@/utils/Interfaces";
 import PainelEstatisticas from "@/components/Painel";
 import { AcoesDashboard } from "@/components/Buttons";
 import NotificacoesRecentes from "@/components/Notificacoes";
-import GraficoArea from "@/components/Graficos";
+import { ArrowBigUpDash, Pointer } from "lucide-react";
 
 export default function PaginaPrincipal() {
     const [open, setOpen] = useState(false);
@@ -26,18 +26,15 @@ export default function PaginaPrincipal() {
             .catch(() => setUserInfo(null));
     }, []);
 
-    const [notificacoes, setNotificacoes] = useState<string[]>([
-        "Preventiva #123 criada com sucesso.",
-        "Equipe atualizada.",
-
-    ]);
+    const [notificacoes, setNotificacoes] = useState<string[]>([]);
 
     return (
         <Auth>
             <div className="min-h-screen bg-gradient-to-b from-offWhite to-royalBlue flex flex-col">
                 <Menu open={open} setOpen={setOpen} />
                 <Header open={open} />
-                <main className={`flex-1 w-[95%]  px-16 sm:px-6 lg:px-8 py-4 md:py-6 transition-all duration-300 ${menuMargin} ${headerPadding}`}>
+                <main className={`flex-1 w-[95%] md:w-[92%]  px-16 sm:px-6 lg:px-8 py-4 md:py-6 transition-all duration-300 ${menuMargin} ${headerPadding}`}>
+                    
                     <motion.div
                         initial={{ opacity: 0, y: 40 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -46,7 +43,7 @@ export default function PaginaPrincipal() {
                     >
                         {/* Hero Section */}
                         <motion.div 
-                            className="relative overflow-hidden bg-gradient-to-br from-deepNavy via-lightDeepNavy to-royalBlue rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-2xl"
+                            className="relative overflow-hidden bg-gradient-to-br from-deepNavy via-lightDeepNavy to-royalBlue rounded-2xl md:rounded-3xl p-6 shadow-2xl"
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.2 }}
@@ -54,7 +51,7 @@ export default function PaginaPrincipal() {
                             
                             <div className="relative z-10">
                                 <motion.h1 
-                                    className="text-responsive-xl font-bold text-white mb-3 md:mb-4 leading-tight"
+                                    className=" font-bold text-white mb-3 md:mb-4 text-5xl md:text-3xl sm:text-2xl"
                                     initial={{ opacity: 0, x: -20 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: 0.4 }}
@@ -62,14 +59,14 @@ export default function PaginaPrincipal() {
                                     Preventivas <span className="text-neonGreen">Giga+</span>
                                 </motion.h1>
                                 <motion.p 
-                                    className="text-responsive-base text-white/90 max-w-2xl leading-relaxed"
+                                    className=" text-white/90 max-w-xl"
                                     initial={{ opacity: 0, x: -20 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: 0.6 }}
                                 >
-                                    Bem-vindo ao sistema de gestão preventiva da Giga+! <br className="hidden md:block" />
-                                    Aqui você pode registrar, visualizar e acompanhar as preventivas de sua equipe 
-                                    de forma eficiente e organizada.
+                                    Bem-vindo ao sistema de gestão preventiva da Giga+! <br className="" />
+                                    Aqui você pode registrar, visualizar e acompanhar as preventivas
+                                    de sua equipe de forma eficiente e organizada.
                                 </motion.p>
                             </div>
                         </motion.div>
@@ -83,7 +80,8 @@ export default function PaginaPrincipal() {
                                     transition={{ delay: 0.8 }}
                                 >
                                     <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
-                                        <h2 className="text-responsive-lg font-bold text-deepNavy">Ações Rápidas</h2>
+                                    <ArrowBigUpDash size={30} className="text-deepNavy"/>
+                                        <h2 className="text-xl font-bold text-deepNavy">Ações Rápidas</h2>
                                     </div>
                                     <AcoesDashboard userInfo={userInfo} />
                                 </motion.div>
@@ -106,33 +104,10 @@ export default function PaginaPrincipal() {
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: 0.8 }}
                                 >
-                                    <PainelEstatisticas />
-                                </motion.div>
-
-                                {/* Chart Section */}
-                                <motion.div 
-                                    className="bg-white/95 backdrop-blur-sm rounded-xl md:rounded-2xl p-4 md:p-6 shadow-lg border border-white/20"
-                                    initial={{ opacity: 0, x: 20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: 1.0 }}
-                                >
-                                    <GraficoArea />
+                                    <PainelEstatisticas userInfo={userInfo}/>
                                 </motion.div>
                             </div>
                         </div>
-
-                        <motion.div 
-                            className="flex justify-center pt-8"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 1.2 }}
-                        >
-                            <div className="flex space-x-2">
-                                <div className="w-2 h-2 bg-neonGreen rounded-full animate-pulse" />
-                                <div className="w-2 h-2 bg-royalBlue rounded-full animate-pulse" style={{ animationDelay: '0.2s' }} />
-                                <div className="w-2 h-2 bg-deepNavy rounded-full animate-pulse" style={{ animationDelay: '0.4s' }} />
-                            </div>
-                        </motion.div>
                     </motion.div>
                 </main>
                 <Footer />
