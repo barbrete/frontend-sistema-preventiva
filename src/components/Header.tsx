@@ -28,17 +28,17 @@ export default function Header({ open }: { open: boolean }) {
   return (
     <header className="fixed top-0 left-0 w-full z-30">
       <div className={`${menuMargin} transition-all duration-300`}>
-        <div className="flex flex-col md:flex-row items-center justify-between bg-white/90  shadow-lg p-6">
+        <div className="flex flex-col md:flex-row items-center justify-between bg-offWhite shadow-lg p-6 sm:p-1 md:p-4">
           <div>
-            <p className="text-lg font-semibold text-blue-800">      
-              Bem-vindo, {userInfo.nome}!
+            <p className="text-base md:text-md font-semibold break-words">      
+              Bem-vindo, <span className="text-deepNavy">{userInfo.nome}</span>!
               {userInfo.tipo === "ADMIN" && (
                 <span className="ml-2 px-3 py-1 rounded-full border border-blue-400 bg-blue-100 text-blue-900 text-xs font-bold shadow-md">
                   ADMIN
                 </span>
               )}
               {userInfo.tipo === "TECNICO" && (
-                <span className="ml-2 px-3 py-1 rounded-full border border-blue-400 bg-blue-100 text-blue-900 text-xs font-bold shadow-md">
+                <span className="ml-2 px-3 md:px-2 py-1 rounded-full border border-blue-400 bg-blue-100 text-blue-900 text-xs font-bold shadow-md">
                   TÉCNICO
                 </span>
               )}
@@ -46,9 +46,9 @@ export default function Header({ open }: { open: boolean }) {
             <p className="text-sm text-gray-600">{userInfo.email}</p>
           </div>
 
-          <div className="mt-4 md:mt-0">
+          <div className="mt-0">
             <span className="text-xs text-gray-500">Último acesso:</span>
-            <p className="text-base text-gray-700">{ultimaVisita}</p>
+            <p className="text-base md:text-sm text-gray-700">{ultimaVisita}</p>
           </div>
         </div>
       </div>

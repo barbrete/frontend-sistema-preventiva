@@ -28,7 +28,7 @@ export default function Menu({ open, setOpen }) {
 
     return (
         <nav
-            className={`fixed top-0 left-0 h-full bg-blue-800 text-white shadow-lg z-40 transition-all duration-300 
+            className={`fixed top-0 left-0 h-full bg-deepNavy text-white shadow-lg z-40 transition-all duration-300 ease-in-out
                 ${open ? "w-80 md:w-64 sm:w-45 " : "w-20 md:w-20 sm:w-16"} 
                 flex flex-col`}
         >
@@ -45,7 +45,7 @@ export default function Menu({ open, setOpen }) {
 
             <button
                 className={`absolute ${open ? "right-[-18px]" : "right-[-18px]"} top-20
-              bg-blue-700 text-white rounded-full p-2 shadow-lg focus:outline-none transition-all duration-300 z-50`}
+              bg-royalBlue text-white rounded-full p-2 shadow-lg focus:outline-none transition-all duration-300 z-50`}
                 onClick={() => setOpen(!open)}
                 style={{ transition: "right 0.3s" }}
             >
@@ -57,7 +57,7 @@ export default function Menu({ open, setOpen }) {
                 <div>
                     {open ? (<p className="pl-4 mb-2">Principal</p>) : (<div className="h-7" />)}
 
-                    <li className="hover:bg-white transition-colors py-4 hover:text-blue-800">
+                    <li className="hover:bg-neonGreen transition-colors py-4 hover:text-deepNavy">
                         <Link
                             href="/pagina_principal"
                             className="flex items-center gap-10 font-semibold text-xl pl-2"
@@ -70,7 +70,7 @@ export default function Menu({ open, setOpen }) {
 
                 {userInfo?.tipo === 'ADMIN' && (
                     <>
-                        <li className="hover:bg-white transition-colors py-4 hover:text-blue-800">
+                        <li className="hover:bg-neonGreen transition-colors py-4 hover:text-deepNavy">
                             <Link
                                 href="/mostrar_preventivas"
                                 className="flex items-center gap-10 font-semibold text-xl pl-2"
@@ -79,7 +79,7 @@ export default function Menu({ open, setOpen }) {
                                 {open && <span>Preventivas</span>}
                             </Link>
                         </li>
-                        <li className="hover:bg-white transition-colors py-4 hover:text-blue-800">
+                        <li className="hover:bg-neonGreen transition-colors py-4 hover:text-deepNavy">
                             <Link
                                 href="/equipe"
                                 className="flex items-center gap-10 font-semibold text-xl pl-2"
@@ -91,7 +91,7 @@ export default function Menu({ open, setOpen }) {
                     </>
                 )}
 
-                <li className="hover:bg-white transition-colors py-4 hover:text-blue-800">
+                <li className="hover:bg-neonGreen transition-colors py-4 hover:text-deepNavy">
                     <Link
                         href={`/perfil/${userInfo ? userInfo.id : ""}`}
                         className="flex items-center gap-10  font-semibold text-xl pl-2"
@@ -104,7 +104,7 @@ export default function Menu({ open, setOpen }) {
                 <div className="mt-20">
                     {open ? (<p className="pl-3 mb-2">Conta</p>) : (<div className=" h-5" />)}
 
-                    <li className="hover:bg-white transition-colors py-4 hover:text-blue-800">
+                    <li className="hover:bg-neonGreen transition-colors py-4 hover:text-deepNavy">
                         <button
                             onClick={() => setModalSair(true)}
                             className="flex items-center gap-10  font-semibold text-xl pl-2"
