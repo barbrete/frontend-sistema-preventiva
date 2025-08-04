@@ -5,7 +5,7 @@ import Header from "@/components/Header";
 import Menu from "@/components/Menu";
 import Footer from "@/components/Footer";
 import api from "@/utils/axios";
-import {RoundIconButton} from "@/components/Buttons";
+import { RoundIconButton } from "@/components/Buttons";
 import { Pencil, Plus, Trash, UserCheck, UserRoundCog, Users2, UserX } from "lucide-react";
 import SelecaoTecnico from "@/components/Selecao";
 import ConfirmacaoExcluir from "@/components/modal/ConfirmacaoExcluir";
@@ -143,26 +143,13 @@ export default function MostrarEquipe() {
                                 </div>
                             </div>
                         </div>
+                        
                         <SearchBar
                             searchTerm={searchTerm}
                             handleSearchChange={setSearchTerm}
                             filter={filter}
                             handleFilterChange={setFilter}
                         />
-                        <div className="mb-6 flex items-center justify-between">
-  <div className="text-sm text-gray-600">
-    {searchTerm || filter !== 'todos' ? (
-      <>
-        Mostrando <span className="font-semibold text-deepNavy">{tecnicosFiltrados.length}</span> de{' '}
-        <span className="font-semibold text-deepNavy">{tecnicos.length}</span> técnicos
-      </>
-    ) : (
-      <>
-        Total: <span className="font-semibold text-deepNavy">{tecnicos.length}</span> técnicos
-      </>
-    )}
-  </div>
-</div>
 
                         <SelecaoTecnico
                             tecnicos={tecnicosFiltrados}
