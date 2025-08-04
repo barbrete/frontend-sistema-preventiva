@@ -1,4 +1,4 @@
-import CardTech from "./CardTech";
+import CardTech from "./Cards/CardTech";
 import LoadingOverlay from "./Loading";
 
 interface SelecaoTecnicoProps {
@@ -14,8 +14,9 @@ export default function SelecaoTecnico({ tecnicos, modoSelecao, selecionado, onS
   if (loading) {
     return <LoadingOverlay show={true} text="Carregando técnicos..." />;
   }
+  
     return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full">
       {tecnicos.map((tecnico) => (
         <div key={tecnico.id} className="relative">
           <div
@@ -26,7 +27,14 @@ export default function SelecaoTecnico({ tecnicos, modoSelecao, selecionado, onS
             }
             className="cursor-pointer"
           >
-            <CardTech nome={tecnico.name} />
+            <CardTech 
+              key={tecnico.id}
+              nome={tecnico.name}
+              email={tecnico.email}
+              tipo={tecnico.tipo}
+              ativo={tecnico.ativo}
+            />
+            
           </div>
           {modoSelecao && (
             <button
