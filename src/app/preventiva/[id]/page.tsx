@@ -10,7 +10,7 @@ import LoadingOverlay from "@/components/Loading";
 import { Car, User, FileText, Calendar, Camera, ArrowRightLeft, Shield, AlertTriangle, CircleCheck, BadgePercent } from "lucide-react";
 import { salvarHorario, getHorario } from "@/utils/Horario";
 import { exportToPDF } from "@/utils/pdf";
-import { InfoCard } from "@/components/Cards";
+import { InfoCard } from "@/components/Cards/Cards";
 import Auth from "@/components/Auth";
 import ModalFoto from "@/components/modal/ExpandirFoto";
 
