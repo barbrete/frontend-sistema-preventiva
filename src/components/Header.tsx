@@ -3,9 +3,14 @@ import { getUsuario } from "@/services/auth";
 import { salvarHorario, getHorario } from "@/utils/Horario";
 import { Usuario } from "@/utils/Interfaces";
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { User, UserPlus } from "lucide-react";
 
-export default function Header({ open }: { open: boolean }) {
+export function Header({ open }: { open: boolean }) {
   const [userInfo, setUserInfo] = useState<Usuario | null>(null);
+  const ultimaVisita = getHorario("ultimaAcao");
+  const menuMargin = open ? "ml-80 md:ml-64 sm:ml-45" : "ml-20 md:ml-20 sm:ml-16";
 
   useEffect(() => {
     getUsuario()
@@ -17,20 +22,19 @@ export default function Header({ open }: { open: boolean }) {
 
   }, []);
 
+  useEffect(() => {
+
+    salvarHorario("ultimaAcao");
+  }, []);
+
   if (!userInfo) return null;
-
-  salvarHorario("ultimaAcao");
-
-  const ultimaVisita = getHorario("ultimaAcao");
-
-  const menuMargin = open ? "ml-80 md:ml-64 sm:ml-45" : "ml-20 md:ml-20 sm:ml-16";
 
   return (
     <header className="fixed top-0 left-0 w-full z-30">
       <div className={`${menuMargin} transition-all duration-300`}>
         <div className="flex flex-col md:flex-row items-center justify-between bg-offWhite shadow-lg p-6 sm:p-1 md:p-4">
           <div>
-            <p className="text-base md:text-md font-semibold break-words">      
+            <p className="text-base md:text-md font-semibold break-words">
               Bem-vindo, <span className="text-deepNavy">{userInfo.nome}</span>!
               {userInfo.tipo === "ADMIN" && (
                 <span className="ml-2 px-3 py-1 rounded-full border border-blue-400 bg-blue-100 text-blue-900 text-xs font-bold shadow-md">
@@ -42,7 +46,7 @@ export default function Header({ open }: { open: boolean }) {
                   TÉCNICO
                 </span>
               )}
-            </p>            
+            </p>
             <p className="text-sm text-gray-600">{userInfo.email}</p>
           </div>
 
@@ -50,6 +54,46 @@ export default function Header({ open }: { open: boolean }) {
             <span className="text-xs text-gray-500">Último acesso:</span>
             <p className="text-base md:text-sm text-gray-700">{ultimaVisita}</p>
           </div>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+export function HeaderCover() {
+  return (
+    <header className="fixed top-0 w-full z-30 ">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between px-6 py-4">
+        <div className="flex items-center gap-4">
+          <Image
+            src="/menu/logo.png"
+            alt="Logo"
+            width={50}
+            height={40}
+          />
+          <div>
+            <h1 className="text-2xl font-bold text-white tracking-tight drop-shadow">
+              Preventivas Giga+
+            </h1>
+          </div>
+        </div>
+
+        <div className="flex gap-2">
+          <Link
+            href="/login"
+            className="flex items-center justify-center gap-1 px-3 py-1 rounded-full border border-royalBlue bg-white text-royalBlue text-sm font-medium shadow-sm hover:bg-blue-50 hover:text-deepNavy transition-all duration-200 min-w-28"
+          >
+            <User size={15} />
+            <span>Entrar</span>
+          </Link>
+
+          <Link
+            href="/cadastro"
+            className="flex items-center justify-center gap-1 px-3 py-1 rounded-full border border-royalBlue bg-white text-royalBlue text-sm font-medium shadow-sm hover:bg-blue-50 hover:text-deepNavy transition-all duration-200 min-w-28"
+          >
+            <UserPlus size={15} />
+            <span>Cadastrar</span>
+          </Link>
         </div>
       </div>
     </header>

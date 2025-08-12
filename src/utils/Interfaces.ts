@@ -6,7 +6,7 @@ export interface Usuario {
     tipo: string;
 }
 
-interface Tecnico {
+export interface Tecnico {
   id: number;
   name: string;
   email: string;

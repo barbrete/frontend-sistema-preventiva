@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import Header from '@/components/Header'
+import { Header } from '@/components/Header'
 import Menu from '@/components/Menu'
 import { Lock, ArrowLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'

@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { ArrowLeft, SearchX } from 'lucide-react'
-import Header from '@/components/Header'
+import { Header } from '@/components/Header'
 import Menu from '@/components/Menu'
 import { useState } from 'react'
 import Footer from '@/components/Footer'
