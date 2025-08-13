@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Header from "@/components/Header";
+import { Header } from "@/components/Header";
 import Menu from "@/components/Menu";
 import Footer from "@/components/Footer";
 import api from "@/utils/axios";
@@ -14,15 +14,16 @@ import Cadastro from "@/components/modal/Cadastro";
 import { criarUsuario, editarUsuario, excluirUsuario } from "@/services/usuario";
 import Auth from "@/components/Auth";
 import SearchBar from "@/components/SearchBar";
+import { Tecnico } from "@/utils/Interfaces";
 
 export default function MostrarEquipe() {
     const [open, setOpen] = useState(false);
-    const [tecnicos, setTecnicos] = useState<any[]>([]);
+    const [tecnicos, setTecnicos] = useState<Tecnico[]>([]);
     const [modoSelecao, setModoSelecao] = useState<null | "editar" | "excluir">(null);
     const [selecionado, setSelecionado] = useState<number | null>(null); const router = useRouter();
     const [modalExcluir, setModalExcluir] = useState(false);
     const [modalEditar, setModalEditar] = useState(false);
-    const [tecnicoSelecionado, setTecnicoSelecionado] = useState<any>(null);
+    const [tecnicoSelecionado, setTecnicoSelecionado] = useState<Tecnico>(null);
     const [modalCadastro, setModalCadastro] = useState(false);
     const headerPadding = "pt-24";
     const [loading, setLoading] = useState(false);
@@ -44,7 +45,7 @@ export default function MostrarEquipe() {
         setLoading(true);
         api.get("/usuarios/tecnicos")
             .then(res => {
-                setTecnicos(res.data as any[]);
+                setTecnicos(res.data as Tecnico[]);
                 setLoading(false);
             })
             .catch(() => {
@@ -59,14 +60,14 @@ export default function MostrarEquipe() {
 
     useEffect(() => {
         api.get("/usuarios/tecnicos")
-            .then(res => setTecnicos(res.data as any[]))
+            .then(res => setTecnicos(res.data as Tecnico[]))
             .catch(() => setTecnicos([]));
     }, []
     );
 
     function atualizarTecnicos() {
         api.get("/usuarios/tecnicos")
-            .then(res => setTecnicos(res.data as any[]))
+            .then(res => setTecnicos(res.data as Tecnico[]))
             .catch(() => setTecnicos([]));
     }
 
@@ -90,7 +91,8 @@ export default function MostrarEquipe() {
 
     return (
         <Auth apenasAdmin>
-            <div className="min-h-screen bg-gradient-to-br from-offWhite via-blue-50 to-royalBlue/20 flex flex-col">                <Menu open={open} setOpen={setOpen} />
+            <div className="min-h-screen bg-gradient-to-br from-offWhite via-blue-50 to-royalBlue/20 flex flex-col">                
+                <Menu open={open} setOpen={setOpen} />
                 <Header open={open} />
                 <main className={`flex-1 w-full bg-white shadow-lg p-8 flex flex-col items-stretch transition-all duration-300 ${open ? "pl-80 md:pl-64 sm:pl-45" : "pl-20 md:pl-20 sm:pl-16"} ${headerPadding}`}>
                     <div className="w-full mx-auto px-4 md:px-8">
@@ -106,6 +108,7 @@ export default function MostrarEquipe() {
                             </div>
                             <div className="h-1 rounded-md bg-gradient-to-r from-royalBlue/70 to-neonGreen/70" />
                         </div>
+                        
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
                             <div className="bg-white rounded-xl p-6 shadow-sm border border-blue-100">
                                 <div className="flex items-center gap-3">

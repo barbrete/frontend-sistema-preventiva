@@ -4,7 +4,7 @@ import { FileText, Gauge, AlertTriangle, CheckCircle, StickyNote } from "lucide-
 import Input from "@/components/Input";
 import Textarea from "@/components/TextArea";
 import Footer from "@/components/Footer";
-import Header from "@/components/Header";
+import { Header } from "@/components/Header";
 import Menu from "@/components/Menu";
 import FotoUploader from "@/components/FotoUploader";
 import { usePreventivaForm } from "@/hooks/usePreventivaForm";

@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from "react";
-import Card from "../../components/Cards/Cards";
+import Card from "@/components/Cards/Cards";
 import { login } from "@/services/auth";
 import { useRouter } from "next/navigation";
 import { Eye, EyeClosed } from "lucide-react";

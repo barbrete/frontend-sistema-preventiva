@@ -191,13 +191,91 @@ export function TabelaPreventivasGeral({ loading = false, onRowClick }: TabelaPr
       <Table>
         <TableHead>
           <TableRow sx={{ backgroundColor: "#38b6ff" }}>
-            <TableCell align="center" sx={{ color: "#fff", fontWeight: "bold" }}>ID</TableCell>
-            <TableCell align="center" sx={{ color: "#fff", fontWeight: "bold" }}>Nome do técnico</TableCell>
-            <TableCell sx={{ color: "#fff", fontWeight: "bold" }}>Nome da Preventiva</TableCell>
-            <TableCell align="center" sx={{ color: "#fff", fontWeight: "bold" }}>Kilometragem</TableCell>
-            <TableCell align="center" sx={{ color: "#fff", fontWeight: "bold" }}>Irregularidades Encontradas</TableCell>
-            <TableCell align="center" sx={{ color: "#fff", fontWeight: "bold" }}>Irregularidades Corrigidas</TableCell>
-            <TableCell align="center" sx={{ color: "#fff", fontWeight: "bold" }}>Data de Criação</TableCell>
+
+            <TableCell 
+              align="center" 
+              sx={{ 
+                color: "#fff", 
+                fontWeight: "bold",
+                fontSize: "1rem",
+                whiteSpace: "pre-line",
+                }}
+              >
+                {"ID"}
+              </TableCell>
+
+            <TableCell 
+              align="center" 
+              sx={{ 
+                color: "#fff", 
+                fontWeight: "bold",
+                fontSize: "1rem",
+                whiteSpace: "pre-line",
+              }}
+            >
+              Nome do técnico
+            </TableCell>
+
+            <TableCell 
+              align="center" 
+              sx={{ 
+                color: "#fff", 
+                fontWeight: "bold",
+                fontSize: "1rem",
+                whiteSpace: "pre-line",
+              }}
+              >
+                Nome da Preventiva
+              </TableCell>
+
+            <TableCell 
+              align="center" 
+              sx={{ 
+                color: "#fff", 
+                fontWeight: "bold",
+                fontSize: "1rem",
+                whiteSpace: "pre-line",
+              }}
+            >
+              Kilometragem
+            </TableCell>
+            
+            <TableCell
+              align="center"
+              sx={{
+                color: "#fff",
+                fontWeight: "bold",
+                fontSize: "1rem",
+                whiteSpace: "pre-line",
+              }}
+            >
+              {"Irregularidades\nEncontradas"}
+            </TableCell>
+
+            <TableCell
+              align="center"
+              sx={{
+                color: "#fff",
+                fontWeight: "bold",
+                fontSize: "1rem",
+                whiteSpace: "pre-line",
+              }}
+            >
+              {"Irregularidades\nCorrigidas"}
+            </TableCell>
+
+            <TableCell 
+              align="center" 
+              sx={{  
+                color: "#fff", 
+                fontWeight: "bold",
+                fontSize: "1rem",
+                whiteSpace: "pre-line", 
+              }}
+            >
+              {"Data de Criação"}
+            </TableCell>
+
           </TableRow>
         </TableHead>
         <TableBody>

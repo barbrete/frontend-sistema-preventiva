@@ -12,7 +12,9 @@ export async function register(email: string, nome: string, senha: string) {
 }
 
 export async function getUsuario() {
+  console.log("Chamando /auth/usuario");
   const response = await api.get("auth/usuario", { withCredentials: true });
+  console.log(`Chamando /auth/usuario ${response.data}`);
   return response.data;
 }
 

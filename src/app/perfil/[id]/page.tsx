@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import LoadingOverlay from "@/components/Loading";
-import Header from "@/components/Header";
+import { Header } from "@/components/Header";
 import Menu from "@/components/Menu";
 import Footer from "@/components/Footer";
 import { TabelaPreventivas } from "@/components/Tabela";

@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import Header from "@/components/Header";
+import { Header } from "@/components/Header";
 import Menu from "@/components/Menu";
 import Footer from "@/components/Footer";
 import api from "@/utils/axios";
@@ -23,8 +23,10 @@ export default function PreventivaEspecifica() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const [fotoModal, setFotoModal] = useState<string | null>(null);
-  salvarHorario("ultimaAcao");
 
+  useEffect(() => {
+    salvarHorario("ultimaAcao");
+  }, []);
   const ultimaVisita = getHorario("ultimaAcao");
 
   useEffect(() => {
@@ -32,6 +34,7 @@ export default function PreventivaEspecifica() {
       setLoading(true);
       try {
         const { data } = await api.get<Preventiva>(`/preventivas/${id}`);
+        console.log(data)
         setPreventiva(data);
       } catch {
         setPreventiva(null);
@@ -44,7 +47,8 @@ export default function PreventivaEspecifica() {
   if (loading)
     return <LoadingOverlay show={true} text="Carregando preventiva..." />;
 
-  if (!preventiva)
+  if (!preventiva) {
+    console.log(preventiva)
     return (
       <div className="max-w-2xl mx-auto p-8 bg-white rounded-xl shadow mt-20">
         <h2 className="text-2xl font-bold text-red-700">
@@ -52,6 +56,7 @@ export default function PreventivaEspecifica() {
         </h2>
       </div>
     );
+  }
 
   const volumetriaPorKm =
     preventiva.irregularidades_encontradas && preventiva.kilometragem_percorrida
@@ -193,8 +198,8 @@ export default function PreventivaEspecifica() {
           </div>
           {fotoModal && (
             <ModalFoto url={fotoModal} onClose={() => setFotoModal(null)} />
-          )}      
-          </main>
+          )}
+        </main>
         <Footer />
       </div>
     </Auth>
