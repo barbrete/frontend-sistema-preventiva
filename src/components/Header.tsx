@@ -62,11 +62,13 @@ export function Header({ open }: { open: boolean }) {
 
 export function HeaderCover() {
   return (
-    <header className="top-0 w-full z-30 relative overflow-hidden">
+    <header className="top-0 w-full z-30 relative overflow-hidden bg-gradient-to-br from-lightDeepNavy to-deepNavy">
 
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between px-6 py-4 relative z-10">
         <div className="flex items-center gap-4">
           <div className="relative">
+              <div className="absolute inset-0 z-0 rounded-full bg-offWhite/40 blur-xl scale-125" />
+
             <Image
               src="/menu/logo.png"
               alt="Logo"
@@ -85,7 +87,6 @@ export function HeaderCover() {
             </div>
           </div>
         </div>
-
       </div>
     </header>
   );

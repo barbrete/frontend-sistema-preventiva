@@ -47,10 +47,10 @@ export default function Home() {
         {/* Imagem à direita */}
         <div className="flex-1 flex justify-center md:justify-end mt-10 md:mt-0">
           <Image
-            src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80"
+            src="/cto3.jpg"
             alt="Fibra óptica"
-            width={380}
-            height={260}
+            width={320}
+            height={400}
             className="rounded-xl shadow-lg object-cover"
             priority
           />
