@@ -62,39 +62,30 @@ export function Header({ open }: { open: boolean }) {
 
 export function HeaderCover() {
   return (
-    <header className="fixed top-0 w-full z-30 ">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between px-6 py-4">
+    <header className="top-0 w-full z-30 relative overflow-hidden">
+
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between px-6 py-4 relative z-10">
         <div className="flex items-center gap-4">
-          <Image
-            src="/menu/logo.png"
-            alt="Logo"
-            width={50}
-            height={40}
-          />
+          <div className="relative">
+            <Image
+              src="/menu/logo.png"
+              alt="Logo"
+              width={50}
+              height={40}
+              className="relative z-10"
+            />
+            
+          </div>
           <div>
-            <h1 className="text-2xl font-bold text-white tracking-tight drop-shadow">
+            <h1 className="text-2xl font-bold text-offWhite tracking-tight drop-shadow-lg">
               Preventivas Giga+
             </h1>
+            <div className="text-neonGreen text-sm font-medium">
+              Sistema de Gestão de Preventivas
+            </div>
           </div>
         </div>
 
-        <div className="flex gap-2">
-          <Link
-            href="/login"
-            className="flex items-center justify-center gap-1 px-3 py-1 rounded-full border border-royalBlue bg-white text-royalBlue text-sm font-medium shadow-sm hover:bg-blue-50 hover:text-deepNavy transition-all duration-200 min-w-28"
-          >
-            <User size={15} />
-            <span>Entrar</span>
-          </Link>
-
-          <Link
-            href="/cadastro"
-            className="flex items-center justify-center gap-1 px-3 py-1 rounded-full border border-royalBlue bg-white text-royalBlue text-sm font-medium shadow-sm hover:bg-blue-50 hover:text-deepNavy transition-all duration-200 min-w-28"
-          >
-            <UserPlus size={15} />
-            <span>Cadastrar</span>
-          </Link>
-        </div>
       </div>
     </header>
   );
