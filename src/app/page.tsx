@@ -26,7 +26,7 @@ export default function Home() {
             Gestão inteligente de preventivas
           </h2>
           <p className="text-lg text-white/90 max-w-md mb-10">
-            Plataforma moderna para gerenciar equipes de técnicos, preventivas de Pop's e CTO's e garantir a qualidade da rede <b>Giga+</b>.
+            Plataforma moderna para gerenciar equipes de técnicos, preventivas de Pop&apos;s e CTO&apos;s e garantir a qualidade da rede <b>Giga+</b>.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <Link
