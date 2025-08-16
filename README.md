@@ -69,8 +69,6 @@ frontend-sistema-preventiva/
 | **react-dom**         | Renderização do React no DOM                               |
 | **typescript**        | Superset do JavaScript com tipagem estática                |
 | **@mui/material**     | Componentes de UI prontos e acessíveis (Material UI)       |
-| **@emotion/react**    | Biblioteca de CSS-in-JS usada pelo Material UI             |
-| **@emotion/styled**   | Estilização de componentes com CSS-in-JS                   |
 | **axios**             | Cliente HTTP para requisições à API                        |
 | **js-cookie**         | Manipulação de cookies (autenticação, preferências, etc)   |
 | **lucide-react**      | Ícones SVG modernos e personalizáveis                      |
@@ -81,7 +79,6 @@ frontend-sistema-preventiva/
 | **recharts**          | Gráficos e visualização de dados em React                  |
 | **react-is**          | Utilitários para validação de elementos React              |
 | **@types/react**      | TypeScript para React                                      |
-| **@types/react-dom**  | TypeScript para ReactDOM                                   |
 
 
 ---
