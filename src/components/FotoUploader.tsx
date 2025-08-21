@@ -1,14 +1,14 @@
 import { ImagePlus, X } from "lucide-react";
 
 interface FotoUploaderProps {
-  fotos: File[];
-  onChange: (files: File[]) => void;
+  fotos: { file: File, descricao: string }[];
+  onChange: (fotos: { file: File, descricao: string }[]) => void;
   label?: string;
   qtdMaxFotos?: number;
-  qtdMinFotos?: number;
 }
 
-export default function FotoUploader({ fotos, onChange, label, qtdMaxFotos = 5 }: FotoUploaderProps) {
+
+export default function FotoUploader({ fotos, onChange, label, qtdMaxFotos }: FotoUploaderProps) {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -16,9 +16,15 @@ export default function FotoUploader({ fotos, onChange, label, qtdMaxFotos = 5 }
       alert(`Você pode enviar no máximo ${qtdMaxFotos} fotos.`);
       return;
     }
-    onChange([...fotos, ...files]);
+    const novas = files.map(file => ({ file, descricao: "" }));
+    onChange([...fotos, ...novas]);
   };
-
+  const handleDescricaoChange = (idx: number, descricao: string) => {
+    const novas = fotos.map((foto, i) =>
+      i === idx ? { ...foto, descricao } : foto
+    );
+    onChange(novas);
+  };
   return (
     <div className="mb-8">
       {label && (
@@ -27,12 +33,20 @@ export default function FotoUploader({ fotos, onChange, label, qtdMaxFotos = 5 }
         </label>
       )}
       <div className="flex gap-4 flex-wrap">
-        {fotos.map((file, idx) => (
-          <div key={idx} className="relative">
+        {fotos.map((foto, idx) => (
+          <div key={idx} className="relative flex flex-col items-center">
             <img
-              src={URL.createObjectURL(file)}
+              src={URL.createObjectURL(foto.file)}
               alt={`Foto ${idx + 1}`}
               className="w-32 h-32 object-cover rounded-2xl shadow-lg"
+            />
+            <input
+              type="text"
+              placeholder="Descrição"
+              value={foto.descricao}
+              onChange={e => handleDescricaoChange(idx, e.target.value)}
+              className="mt-2 w-32 p-1 border rounded"
+              maxLength={100}
             />
             <button
               type="button"
@@ -47,11 +61,11 @@ export default function FotoUploader({ fotos, onChange, label, qtdMaxFotos = 5 }
           </div>
         ))}
 
-        {fotos.length < qtdMaxFotos && (
+        {(!qtdMaxFotos || fotos.length < qtdMaxFotos) && (
           <label className="cursor-pointer flex items-center justify-center w-32 h-32 border-2 border-dashed border-gray-300 rounded-2xl hover:border-blue-600 transition-colors duration-200 bg-gray-100 hover:bg-gray-200">
-            <ImagePlus 
-                size={32}
-                className="text-gray-400"
+            <ImagePlus
+              size={32}
+              className="text-gray-400"
             />
             <input
               type="file"

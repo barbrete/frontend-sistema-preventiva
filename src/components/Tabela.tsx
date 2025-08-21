@@ -29,16 +29,13 @@ export function TabelaPreventivas({ preventivas, loading = false, onRowClick, us
     async function fetchPreventivas() {
       setLoading(true);
       try {
-        console.log("Buscando preventivas:", { user_id, page, rowsPerPage });
         const res = await api.get<{ preventivas: Preventiva[]; total: number }>(
           `/preventivas/paginacao/${user_id}?page=${page + 1
           }&limit=${rowsPerPage}`
         );
-        console.log("Resposta da API:", res.data);
         setPreventivas(res.data.preventivas);
         setTotal(res.data.total);
       } catch (err) {
-        console.error("Erro ao buscar preventivas:", err);
         setPreventivas([]);
         setTotal(0);
       }
@@ -175,7 +172,6 @@ export function TabelaPreventivasGeral({ loading = false, onRowClick }: TabelaPr
           `/preventivas/paginacao?page=${page + 1}&limit=${rowsPerPage}`
         );
         setPreventivas(res.data.preventivas);
-        console.log("RESDATA",res.data.preventivas)
         setTotal(res.data.total);
       } catch (err) {
         setPreventivas([]);

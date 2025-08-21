@@ -15,11 +15,9 @@ export function Header({ open }: { open: boolean }) {
   useEffect(() => {
     getUsuario()
       .then((user: any) => {
-        console.log("getUsuario retornou:", user);
         setUserInfo(user.usuario as Usuario);
       })
       .catch(() => setUserInfo(null));
-
   }, []);
 
   useEffect(() => {

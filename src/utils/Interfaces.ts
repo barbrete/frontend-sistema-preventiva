@@ -26,6 +26,7 @@ export interface Preventiva {
   fotos?: Foto[];
   created_at: string;
   updated_at: string;
+  tipo: string;
 }
 
 export interface Foto {
@@ -33,6 +34,7 @@ export interface Foto {
     url: string,
     tipo: string,
     preventiva_id: number,
+    descricao?: string,
     user_id: number,
     userTipo?: string
 }

@@ -14,9 +14,7 @@ export default function Auth({ children, apenasAdmin, apenasUsuario }: AuthProps
   const [status, setStatus] = useState<"loading" | "logged_out" | "admin" | "usuario">("loading");
   const router = useRouter();
 
-     useEffect(() => {
-        console.log("Auth useEffect disparado");
-
+  useEffect(() => {
     getUsuario()
       .then((res: any) => {
         if (!res || !res.usuario) {
