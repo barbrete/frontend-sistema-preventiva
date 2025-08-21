@@ -34,7 +34,6 @@ export default function PreventivaEspecifica() {
       setLoading(true);
       try {
         const { data } = await api.get<Preventiva>(`/preventivas/${id}`);
-        console.log(data)
         setPreventiva(data);
       } catch {
         setPreventiva(null);
@@ -48,7 +47,6 @@ export default function PreventivaEspecifica() {
     return <LoadingOverlay show={true} text="Carregando preventiva..." />;
 
   if (!preventiva) {
-    console.log(preventiva)
     return (
       <div className="max-w-2xl mx-auto p-8 bg-white rounded-xl shadow mt-20">
         <h2 className="text-2xl font-bold text-red-700">
@@ -147,7 +145,37 @@ export default function PreventivaEspecifica() {
                 Fotos da Preventiva
               </h2>
 
-              {preventiva.fotos && preventiva.fotos.length > 0 ? (
+              {preventiva.tipo === "POP" ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                  {preventiva.fotos.length > 0 ? (
+                    preventiva.fotos.map((foto) => (
+                      <div key={foto.id} className="flex flex-col bg-white rounded-lg shadow-sm border border-gray-200 p-3 hover:shadow-md transition-shadow">
+                        <div className="relative overflow-hidden rounded-md mb-3">
+                          <img
+                            src={foto.url}
+                            alt={foto.tipo}
+                            className="w-full h-48 object-cover cursor-pointer"
+                            onClick={() => setFotoModal(foto.url)}
+                          />
+                        </div>
+                        {foto.descricao && (
+                          <p className="text-lg text-gray-600 text-center px-2 py-1 bg-gray-50 rounded-md">
+                            {foto.descricao}
+                          </p>
+                        )}
+
+                      </div>
+                    ))
+                  ) : (
+                    <div className="col-span-full text-center py-8">
+                      <Camera className="w-12 h-12 text-gray-300 mx-auto mb-3" />
+                      <p className="text-gray-500 text-sm">
+                        Nenhuma foto cadastrada nesta preventiva POP.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
                   {["antes", "depois"].map((tipo) => {
                     const fotosFiltradas = preventiva.fotos.filter((f) =>
@@ -161,13 +189,20 @@ export default function PreventivaEspecifica() {
                         </h3>
                         {fotosFiltradas.length > 0 ? (
                           fotosFiltradas.map((foto) => (
-                            <img
-                              key={foto.id}
-                              src={foto.url}
-                              alt={foto.tipo}
-                              className="w-full h-56 object-cover rounded-md shadow-sm border cursor-pointer"
-                              onClick={() => setFotoModal(foto.url)}
-                            />
+                            <div key={foto.id} className="w-full mb-4">
+                              <img
+                                key={foto.id}
+                                src={foto.url}
+                                alt={foto.tipo}
+                                className="w-full h-56 object-cover rounded-md shadow-sm border cursor-pointer"
+                                onClick={() => setFotoModal(foto.url)}
+                              />
+                              {foto.descricao && (
+                                <p className="text-sm text-gray-600 text-center mt-2 px-2 py-1 bg-gray-50 rounded-md">
+                                  {foto.descricao}
+                                </p>
+                              )}
+                            </div>
                           ))
                         ) : (
                           <p className="text-sm text-gray-500">
@@ -178,10 +213,6 @@ export default function PreventivaEspecifica() {
                     );
                   })}
                 </div>
-              ) : (
-                <p className="text-gray-500 text-sm mt-2">
-                  Nenhuma foto cadastrada nesta preventiva.
-                </p>
               )}
             </section>
 
