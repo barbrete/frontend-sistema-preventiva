@@ -62,13 +62,13 @@ export default function CreatePreventiva() {
                                 required
                             >
                                 <option value="">Selecione o tipo</option>
-                                <option value="CTO">CTO</option>
+                                <option value="CTO">REDE</option>
                                 <option value="POP">POP</option>
                             </select>
 
                             <Input
                                 icon={<FileText />}
-                                label="Nome"
+                                label="Nome da Rota"
                                 name="nome"
                                 value={form.nome}
                                 onChange={e => setForm({ ...form, nome: e.target.value })}
