@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 export default function CardEstatistica({ label, valor, icon, gradient, iconBg, iconColor }: { label: string; valor: number; icon: React.ReactNode; gradient: string; iconBg: string; iconColor: string; }) {
   return (
     <motion.div
-      className="group relative overflow-hidden rounded-2xl p-4 h-24 cursor-pointer"
+      className="group relative overflow-hidden rounded-2xl p-4 h-24"
       whileHover={{ scale: 1.02, y: -2 }}
       whileTap={{ scale: 0.98 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}

@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from "react";
-import Card from "../../components/Cards/Cards";
+import Card from "@/components/Cards/Cards";
 import { register } from "@/services/auth";
 import { useRouter } from "next/navigation";
 import { Eye, EyeClosed } from "lucide-react";
@@ -11,7 +11,7 @@ export default function Cadastro() {
   const router = useRouter()
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const [confirmarSenha, setConfirmarSenha] = useState(""); // novo estado
+  const [confirmarSenha, setConfirmarSenha] = useState(""); 
   const [nome, setNome] = useState("");
   const [eyeIsOff, setEyeState] = useState(false);
   const [eyeConfirmIsOff, setEyeConfirmState] = useState(false); 
@@ -30,7 +30,6 @@ export default function Cadastro() {
       alert("Erro ao fazer cadastro");
     }
   }
-
 
   return (
     <div className="min-h-screen flex flex-col flex-1 items-center justify-center bg-blue-100">

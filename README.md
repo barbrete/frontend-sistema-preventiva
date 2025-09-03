@@ -1,74 +1,123 @@
-<<<<<<< HEAD
-# Getting Started with Create React App
+# FrontEnd — Sistema de Preventivas
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+>Este sistema foi desenvolvido para resolver o problema da gestão de manutenções preventivas de CTO's e POP's para empresas de fibra óptica. É uma plataforma centralizada e intuitiva para que os técnicos e supervisores de campo possam criar em tempo real e gerenciar as preventivas de forma eficiente.
 
-## Available Scripts
+### 👥 Funcionalidades por papel
+- **Técnico**  
+  - Criar conta e fazer login  
+  - CRUD de suas preventivas
+  - Acompanhar histórico de preventivas
+  - Acessar página de perfil  
 
-In the project directory, you can run:
+- **Administrador**  
+  - CRUD completo de preventivas e usuários
+  - Acompanhar preventivas dos técnicos
+  - Acessar página de perfil
+  - Manter controle sobre usuários e registros
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 📌 Índice
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+* [📂 Estrutura](#-estrutura)
+* [🚀 Tecnologias](#-tecnologias)
+* [📦 Instalação](#-instalação)
+* [▶️ Execução](#️-execução)
+* [📸 Screenshots](#-screenshots)
+* [📡 Integração com o Backend](#-integração-com-o-backend)
+* [📄 Licença](#-licença)
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 📂 Estrutura
 
-### `npm run build`
+```
+frontend-sistema-preventiva/
+├── public/                        # Arquivos estáticos (imagens, favicon, etc)
+│   
+├── src/
+│   ├── app/                       # Páginas do Next.js (rotas)
+│   │   ├── criar_preventiva/      # Página de criação de preventiva
+│   │   ├── mostrar_preventivas/   # Página de listagem de preventivas
+│   │   ├── perfil/[id]            # Página de perfil dinâmico
+│   │   ├── preventiva/[id]        # Página de detalhes da preventiva
+│   │   ├── cadastro/              # Página de cadastro de usuário
+│   │   ├── acesso_negado/         # Página de acesso negado
+│   │   ├── not-found.tsx          # Página 404 personalizada
+│   │   ├── layout.tsx             # Layout global
+│   │   └── page.tsx               # Página inicial
+│   │
+│   ├── components/                # Componentes reutilizáveis
+│   │   
+│   ├── hooks/                     # Custom React hooks
+│   │   
+│   ├── services/                  # Serviços de API (axios, autenticação, etc)
+│   │   
+│   ├── utils/                     # Funções utilitárias e tipos
+│   │   
+│   └── styles/           
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🚀 Tecnologias
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+| Pacote                | Função                                     |
+|-----------------------|------------------------------------------------------------|
+| **next**              | Framework React para SSR/SSG e rotas baseadas em arquivos  |
+| **react**             | Biblioteca principal para construção de interfaces         |
+| **react-dom**         | Renderização do React no DOM                               |
+| **typescript**        | Superset do JavaScript com tipagem estática                |
+| **@mui/material**     | Componentes de UI prontos e acessíveis (Material UI)       |
+| **axios**             | Cliente HTTP para requisições à API                        |
+| **js-cookie**         | Manipulação de cookies (autenticação, preferências, etc)   |
+| **lucide-react**      | Ícones SVG modernos e personalizáveis                      |
+| **framer-motion**     | Animações e transições para React                          |
+| **html2canvas**       | Captura de screenshots do DOM em canvas                    |
+| **pdf-lib**           | Criação e manipulação de arquivos PDF no frontend          |
+| **react-day-picker**  | Componente de seleção de datas flexível e acessível        |
+| **recharts**          | Gráficos e visualização de dados em React                  |
+| **react-is**          | Utilitários para validação de elementos React              |
+| **@types/react**      | TypeScript para React                                      |
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 📦 Instalação
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+git clone https://github.com/barbrete/frontend-sistema-preventiva.git
+cd .\frontend-sistema-preventiva\
+npm i
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## ▶️ Execução
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+npm run dev
+```
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 📸 Screenshots
 
-### Code Splitting
+<img width="800" height="450" alt="image" src="https://github.com/user-attachments/assets/27f8737f-a057-4069-9ece-88de63998ea2" />
+<img width="800" height="450" alt="image" src="https://github.com/user-attachments/assets/778c9075-b76c-496c-8868-a5cf2ded337f" />
+<img width="800" height="450" alt="image" src="https://github.com/user-attachments/assets/67ac1e40-64e2-44b1-8975-dc4eb1859c19" />
+<img width="550" height="878" alt="image" src="https://github.com/user-attachments/assets/d4cd1b77-f327-4ef6-a84c-bd105c0385bb" />
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 📡 Integração com o Backend
 
-### Making a Progressive Web App
+Este frontend consome a API disponível no [Repositório Backend](https://github.com/barbrete/backend-sistema-preventiva)).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+---
 
-### Advanced Configuration
+## 📄 Licença
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Este projeto está licenciado sob a [MIT License](LICENSE).
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-=======
-# frontend-sistema-preventiva
->>>>>>> b3d66710a0b69e6d880d08dc84e1664ca4f18bc8
+---
