@@ -4,6 +4,7 @@ import TablePagination from "@mui/material/TablePagination";
 import api from "@/utils/axios";
 import { Preventiva } from "@/utils/Interfaces";
 import LoadingOverlay from "@/components/Loading";
+import { Edit, Trash } from "lucide-react";
 
 interface TabelaPreventivasProps {
   preventivas: Preventiva[];
@@ -16,12 +17,15 @@ interface TabelaPreventivasGeralProps {
   loading?: boolean;
   onRowClick?: (id: number) => void;
   preventivas: Preventiva[];
+  user_id?: number;
+  onEdit?: (id: number) => void;
+  onDelete?: (id: number) => void;
 }
 
 export function TabelaPreventivas({ preventivas, loading = false, onRowClick, user_id }: TabelaPreventivasProps) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [preventivasState, setPreventivas] = useState<any[]>([]);
+  const [preventivasState, setPreventivas] = useState<Preventiva[]>([]);
   const [total, setTotal] = useState(0);
   const [, setLoading] = useState(false);
 
@@ -157,7 +161,7 @@ export function TabelaPreventivas({ preventivas, loading = false, onRowClick, us
   );
 }
 
-export function TabelaPreventivasGeral({ loading = false, onRowClick }: TabelaPreventivasGeralProps) {
+export function TabelaPreventivasGeral({ loading = false, onRowClick, onEdit, onDelete }: TabelaPreventivasGeralProps) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [preventivasState, setPreventivas] = useState<Preventiva[]>([]);
@@ -188,22 +192,22 @@ export function TabelaPreventivasGeral({ loading = false, onRowClick }: TabelaPr
         <TableHead>
           <TableRow sx={{ backgroundColor: "#38b6ff" }}>
 
-            <TableCell 
-              align="center" 
-              sx={{ 
-                color: "#fff", 
+            <TableCell
+              align="center"
+              sx={{
+                color: "#fff",
                 fontWeight: "bold",
                 fontSize: "1rem",
                 whiteSpace: "pre-line",
-                }}
-              >
-                {"ID"}
-              </TableCell>
+              }}
+            >
+              {"ID"}
+            </TableCell>
 
-            <TableCell 
-              align="center" 
-              sx={{ 
-                color: "#fff", 
+            <TableCell
+              align="center"
+              sx={{
+                color: "#fff",
                 fontWeight: "bold",
                 fontSize: "1rem",
                 whiteSpace: "pre-line",
@@ -212,22 +216,22 @@ export function TabelaPreventivasGeral({ loading = false, onRowClick }: TabelaPr
               Nome do técnico
             </TableCell>
 
-            <TableCell 
-              align="center" 
-              sx={{ 
-                color: "#fff", 
+            <TableCell
+              align="center"
+              sx={{
+                color: "#fff",
                 fontWeight: "bold",
                 fontSize: "1rem",
                 whiteSpace: "pre-line",
               }}
-              >
-                Nome da Preventiva
-              </TableCell>
+            >
+              Nome da Preventiva
+            </TableCell>
 
-            <TableCell 
-              align="center" 
-              sx={{ 
-                color: "#fff", 
+            <TableCell
+              align="center"
+              sx={{
+                color: "#fff",
                 fontWeight: "bold",
                 fontSize: "1rem",
                 whiteSpace: "pre-line",
@@ -235,7 +239,7 @@ export function TabelaPreventivasGeral({ loading = false, onRowClick }: TabelaPr
             >
               Kilometragem
             </TableCell>
-            
+
             <TableCell
               align="center"
               sx={{
@@ -260,16 +264,28 @@ export function TabelaPreventivasGeral({ loading = false, onRowClick }: TabelaPr
               {"Irregularidades\nCorrigidas"}
             </TableCell>
 
-            <TableCell 
-              align="center" 
-              sx={{  
-                color: "#fff", 
+            <TableCell
+              align="center"
+              sx={{
+                color: "#fff",
                 fontWeight: "bold",
                 fontSize: "1rem",
-                whiteSpace: "pre-line", 
+                whiteSpace: "pre-line",
               }}
             >
               {"Data de Criação"}
+            </TableCell>
+
+            <TableCell
+              align="center"
+              sx={{
+                color: "#fff",
+                fontWeight: "bold",
+                fontSize: "1rem",
+                whiteSpace: "pre-line",
+              }}
+            >
+              {"Ações"}
             </TableCell>
 
           </TableRow>
@@ -305,6 +321,18 @@ export function TabelaPreventivasGeral({ loading = false, onRowClick }: TabelaPr
                 <TableCell align="center">{p.irregularidades_encontradas}</TableCell>
                 <TableCell align="center">{p.irregularidades_corrigidas}</TableCell>
                 <TableCell align="center">{new Date(p.created_at).toLocaleDateString("pt-br")}</TableCell>
+                <TableCell align="center">
+                  <button
+                    className="text-blue-500 hover:text-blue-700"
+                    onClick={() => onEdit && onEdit(p.id)} >
+                    <Edit size={20} />
+                  </button>
+                  <button
+                    className="text-red-500 hover:text-red-700 ml-2"
+                    onClick={() => onDelete && onDelete(p.id)}>
+                    <Trash size={20} />
+                  </button>
+                </TableCell>
               </TableRow>
             ))
           )}

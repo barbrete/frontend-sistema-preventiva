@@ -1,7 +1,7 @@
 import { ImagePlus, X } from "lucide-react";
 
 interface FotoUploaderProps {
-  fotos: { file: File, descricao: string }[];
+  fotos: { file: File | null; descricao: string; url?: string }[];
   onChange: (fotos: { file: File, descricao: string }[]) => void;
   label?: string;
   qtdMaxFotos?: number;
@@ -36,7 +36,7 @@ export default function FotoUploader({ fotos, onChange, label, qtdMaxFotos }: Fo
         {fotos.map((foto, idx) => (
           <div key={idx} className="relative flex flex-col items-center">
             <img
-              src={URL.createObjectURL(foto.file)}
+              src={foto.file ? URL.createObjectURL(foto.file) : foto.url || ""} 
               alt={`Foto ${idx + 1}`}
               className="w-32 h-32 object-cover rounded-2xl shadow-lg"
             />
