@@ -2,7 +2,7 @@ import { ImagePlus, X } from "lucide-react";
 
 interface FotoUploaderProps {
   fotos: { file: File | null; descricao: string; url?: string }[];
-  onChange: (fotos: { file: File, descricao: string }[]) => void;
+  onChange: (fotos: { file: File | null; descricao: string; url?: string }[]) => void;
   label?: string;
   qtdMaxFotos?: number;
 }
@@ -10,21 +10,39 @@ interface FotoUploaderProps {
 
 export default function FotoUploader({ fotos, onChange, label, qtdMaxFotos }: FotoUploaderProps) {
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    if (fotos.length + files.length > qtdMaxFotos) {
+    console.log('📁 Arquivos selecionados:', files);
+    
+    if (fotos.length + files.length > (qtdMaxFotos || 10)) {
       alert(`Você pode enviar no máximo ${qtdMaxFotos} fotos.`);
       return;
     }
-    const novas = files.map(file => ({ file, descricao: "" }));
-    onChange([...fotos, ...novas]);
+    
+    const novas = files.map(file => ({ file, descricao: "", url: undefined }));
+    const fotosFinais = [...fotos, ...novas];
+    
+    console.log('📸 Fotos finais após adicionar:', fotosFinais);
+    onChange(fotosFinais);
   };
-  const handleDescricaoChange = (idx: number, descricao: string) => {
+    const handleDescricaoChange = (idx: number, descricao: string) => {
+    console.log(`✏️ Alterando descrição da foto ${idx}:`, descricao);
+    console.log('🖼️ Fotos atuais:', fotos);
+    
     const novas = fotos.map((foto, i) =>
       i === idx ? { ...foto, descricao } : foto
     );
+    
+    console.log('🖼️ Novas fotos após mudança:', novas);
     onChange(novas);
   };
+
+  const handleRemoveFoto = (idx: number) => {
+    const novasFotos = fotos.filter((_, i) => i !== idx);
+    console.log('🗑️ Removendo foto:', idx, 'Fotos restantes:', novasFotos);
+    onChange(novasFotos);
+  };
+
   return (
     <div className="mb-8">
       {label && (
@@ -50,10 +68,7 @@ export default function FotoUploader({ fotos, onChange, label, qtdMaxFotos }: Fo
             />
             <button
               type="button"
-              onClick={() => {
-                const novasFotos = fotos.filter((_, i) => i !== idx);
-                onChange(novasFotos);
-              }}
+              onClick={() => handleRemoveFoto(idx)}
               className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
             >
               <X size={16} />

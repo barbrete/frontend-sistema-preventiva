@@ -1,101 +1,57 @@
 "use client";
-import { useParams, useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
-import api from "@/utils/axios";
+import { useParams } from "next/navigation";
+import { useState } from "react";
 import Input from "@/components/Input";
 import Textarea from "@/components/TextArea";
 import FotoUploader from "@/components/FotoUploader";
 import LoadingOverlay from "@/components/Loading";
 import Auth from "@/components/Auth";
-import { Preventiva } from "@/utils/Interfaces";
+import { Usuario } from "@/utils/Interfaces";
 import Menu from "@/components/Menu";
 import { Header } from "@/components/Header";
 import { FileText, Gauge, AlertTriangle, CheckCircle, StickyNote } from "lucide-react";
 import Footer from "@/components/Footer";
+import { usePreventivaForm } from "@/hooks/usePreventivaForm";
+
 
 export default function EditarPreventiva() {
     const { id } = useParams();
     const [open, setOpen] = useState(false);
-    const router = useRouter()
-    const [loading, setLoading] = useState(false);
-    const [form, setForm] = useState({
+    const [loadingText, setLoadingText] = useState("Carregando...");
+
+    const initialForm = {
         nome: "",
         tipo: "",
         kilometragem_percorrida: "",
         irregularidades_encontradas: "",
         irregularidades_corrigidas: "",
         descricao: "",
-        fotosAntes: [] as { file: File, descricao: string }[],
-        fotosDepois: [] as { file: File, descricao: string }[],
-        fotosPop: [] as { file: File, descricao: string }[],
+        fotosAntes: [],
+        fotosDepois: [],
+        fotosPop: [],
+    };
+
+    const hookResult = usePreventivaForm({
+        initialForm,
+        setLoadingText,
+        preventiva_id: id as string,
     });
 
-    useEffect(() => {
-        if (id) {
-            setLoading(true);
-            api.get<Preventiva>(`/preventivas/${id}`)
-                .then((res) => {
-                    const preventiva = res.data;
-                    setForm({
-                        nome: preventiva.nome,
-                        tipo: preventiva.tipo,
-                        kilometragem_percorrida: preventiva.kilometragem_percorrida.toFixed(),
-                        irregularidades_encontradas: preventiva.irregularidades_encontradas.toFixed(),
-                        irregularidades_corrigidas: preventiva.irregularidades_corrigidas.toFixed(),
-                        descricao: preventiva.descricao,
-                        fotosAntes: preventiva.fotos
-                            ?.filter((foto) => foto.tipo === "ANTES")
-                            .map((foto) => ({
-                                file: null, // Não há arquivo disponível, então defina como null
-                                descricao: foto.descricao || "",
-                                url: foto.url, // Adicionado
-                            })) || [],
-                        fotosDepois: preventiva.fotos
-                            ?.filter((foto) => foto.tipo === "DEPOIS")
-                            .map((foto) => ({
-                                file: null,
-                                descricao: foto.descricao || "",
-                                url: foto.url,
-                            })) || [],
-                        fotosPop: preventiva.fotos
-                            ?.filter((foto) => foto.tipo === "POP")
-                            .map((foto) => ({
-                                file: null,
-                                descricao: foto.descricao || "",
-                                url: foto.url,
-                            })) || []
-                    });
-                    setLoading(false);
-                })
-                .catch((err) => {
-                    console.error("Erro ao carregar preventiva:", err);
-                    setLoading(false);
-                });
-        }
-    }, [id]);
-
-    async function handleSubmit(e: React.FormEvent) {
-        e.preventDefault();
-        if (id) {
-            setLoading(true);
-            const payload = {
-            ...form,
-            kilometragem_percorrida: parseFloat(form.kilometragem_percorrida),
-            irregularidades_encontradas: parseInt(form.irregularidades_encontradas, 10),
-            irregularidades_corrigidas: parseInt(form.irregularidades_corrigidas, 10),
-        };
-            try {
-                await api.put(`/preventivas/${id}`, payload);
-                router.push(`/preventiva/${id}`)
-                alert("Preventiva atualizada com sucesso!");
-            } catch (error) {
-                console.error("Erro ao atualizar preventiva:", error);
-                alert("Erro ao atualizar preventiva.");
-            } finally {
-                setLoading(false);
-            }
-        }
+    if (!hookResult.userInfo) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <span className="text-lg text-gray-600">Carregando usuário...</span>
+            </div>
+        );
     }
+
+    const { form, setForm, handleSubmit, loading } = hookResult;
+
+    // ✅ Log 4: Função personalizada para monitorar mudanças nas fotos
+    const handleFotosChange = (tipo: 'fotosAntes' | 'fotosDepois' | 'fotosPop', novasFotos: any[]) => {
+        console.log(`🖼️ ${tipo} alteradas:`, novasFotos);
+        setForm({ ...form, [tipo]: novasFotos });
+    };
 
     return (
         <Auth>
@@ -178,13 +134,19 @@ export default function EditarPreventiva() {
                                 <>
                                     <FotoUploader
                                         fotos={form.fotosAntes}
-                                        onChange={(files) => setForm({ ...form, fotosAntes: files })}
+                                        onChange={(files) => {
+                                            console.log('📤 FotoUploader onChange - fotosAntes:', files);
+                                            handleFotosChange('fotosAntes', files);
+                                        }}
                                         label="Fotos Antes"
                                         qtdMaxFotos={5}
                                     />
                                     <FotoUploader
                                         fotos={form.fotosDepois}
-                                        onChange={(files) => setForm({ ...form, fotosDepois: files })}
+                                        onChange={(files) => {
+                                            console.log('📤 FotoUploader onChange - fotosDepois:', files);
+                                            handleFotosChange('fotosDepois', files);
+                                        }}
                                         label="Fotos Depois"
                                         qtdMaxFotos={5}
                                     />
@@ -194,17 +156,22 @@ export default function EditarPreventiva() {
                             {form.tipo === "POP" && (
                                 <FotoUploader
                                     fotos={form.fotosPop}
-                                    onChange={(files) => setForm({ ...form, fotosPop: files })}
+                                    onChange={(files) => {
+                                        console.log('📤 FotoUploader onChange - fotosPop:', files);
+                                        handleFotosChange('fotosPop', files);
+                                    }}
                                     label="Fotos POP"
                                     qtdMaxFotos={15}
                                 />
                             )}
 
+
                             <button
                                 type="submit"
                                 className="w-full bg-blue-600 hover:bg-blue-700 transition text-white font-semibold py-3 px-4 rounded-md"
+                                disabled={loading}
                             >
-                                Atualizar Preventiva
+                                {loading ? "Atualizando..." : "Atualizar Preventiva"}
                             </button>
                         </form>
                     </div>
