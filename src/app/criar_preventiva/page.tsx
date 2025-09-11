@@ -159,10 +159,7 @@ export default function CreatePreventiva() {
                             <button
                                 type="submit"
                                 className="w-full bg-blue-600 hover:bg-blue-700 transition text-white font-semibold py-3 px-4 rounded-md"
-                                onClick={e => {
-                                    e.preventDefault();
-                                    handleSubmit(e);
-                                }}
+                                
                             >
                                 Salvar Preventiva
                             </button>

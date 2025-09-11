@@ -10,6 +10,7 @@ import { Preventiva } from "@/utils/Interfaces";
 import Auth from "@/components/Auth";
 import { FileText } from "lucide-react";
 import { deletePreventiva, fetchPreventivas } from "@/services/preventivas";
+import ModalConfirmacao from "@/components/modal/AcaoTabela";
 
 export default function MostrarPreventivas() {
     const router = useRouter();
@@ -18,8 +19,11 @@ export default function MostrarPreventivas() {
 
     const [preventivas, setPreventivas] = useState<Preventiva[]>([]);
     const [loading, setLoading] = useState(true);
+
     const [modalExcluir, setModalExcluir] = useState(false);
+    const [modalEditar, setModalEditar] = useState(false);
     const [preventivaSelecionada, setPreventivaSelecionada] = useState<Preventiva | null>(null);
+
 
     useEffect(() => {
         async function loadPreventivas() {
@@ -36,16 +40,32 @@ export default function MostrarPreventivas() {
     }, []);
 
     async function handleEdit(id: number) {
-          console.log("Redirecionando para:", `/editar_preventiva/${id}`);
-        router.push(`/editar_preventiva/${id}`); // Redireciona para a rota dinâmica
+        const preventiva = preventivas.find(p => p.id === id);
+        setPreventivaSelecionada(preventiva || null);
+        setModalEditar(true);
     }
 
+    function confirmarEdicao() {
+        if (preventivaSelecionada) {
+            setModalEditar(false);
+            router.push(`/editar_preventiva/${preventivaSelecionada.id}`);
+        }
+    }
+
+    // ✅ Função para abrir modal de exclusão
     async function handleDelete(id: number) {
-        const confirm = window.confirm("Tem certeza que deseja excluir esta preventiva?");
-        if (confirm) {
+        const preventiva = preventivas.find(p => p.id === id);
+        setPreventivaSelecionada(preventiva || null);
+        setModalExcluir(true);
+    }
+
+    // ✅ Função para confirmar exclusão
+    async function confirmarExclusao() {
+        if (preventivaSelecionada) {
             try {
-                await deletePreventiva(id);
-                setPreventivas((prev) => prev.filter((p) => p.id !== id));
+                await deletePreventiva(preventivaSelecionada.id);
+                setPreventivas((prev) => prev.filter((p) => p.id !== preventivaSelecionada.id));
+                setModalExcluir(false);
                 alert("Preventiva excluída com sucesso!");
             } catch (error) {
                 console.error("Erro ao excluir preventiva:", error);
@@ -54,13 +74,6 @@ export default function MostrarPreventivas() {
         }
     }
 
-    async function confirmDelete() {
-        if (preventivaSelecionada) {
-            await deletePreventiva(preventivaSelecionada.id);
-            setPreventivas((prev) => prev.filter((p) => p.id !== preventivaSelecionada.id));
-            setModalExcluir(false);
-        }
-    }
 
     return (
         <Auth apenasAdmin>
@@ -96,6 +109,22 @@ export default function MostrarPreventivas() {
                 </main>
 
                 <Footer />
+
+                <ModalConfirmacao
+                    isOpen={modalEditar}
+                    onClose={() => setModalEditar(false)}
+                    onConfirm={confirmarEdicao}
+                    titulo="Editar Preventiva"
+                    mensagem={`Deseja editar a preventiva "${preventivaSelecionada?.nome}"?`}
+                />
+
+                <ModalConfirmacao
+                    isOpen={modalExcluir}
+                    onClose={() => setModalExcluir(false)}
+                    onConfirm={confirmarExclusao}
+                    titulo="Excluir Preventiva"
+                    mensagem={`Tem certeza que deseja excluir a preventiva "${preventivaSelecionada?.nome}"? Esta ação não pode ser desfeita.`}
+                />
             </div>
         </Auth>
     );

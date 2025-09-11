@@ -11,6 +11,8 @@ interface TabelaPreventivasProps {
   loading?: boolean;
   onRowClick?: (id: number) => void;
   user_id?: number;
+  onEdit?: (id: number) => void;
+  onDelete?: (id: number) => void;
 }
 
 interface TabelaPreventivasGeralProps {
@@ -22,7 +24,7 @@ interface TabelaPreventivasGeralProps {
   onDelete?: (id: number) => void;
 }
 
-export function TabelaPreventivas({ preventivas, loading = false, onRowClick, user_id }: TabelaPreventivasProps) {
+export function TabelaPreventivas({ preventivas, loading = false, onRowClick, user_id, onEdit, onDelete }: TabelaPreventivasProps) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [preventivasState, setPreventivas] = useState<Preventiva[]>([]);
@@ -99,6 +101,11 @@ export function TabelaPreventivas({ preventivas, loading = false, onRowClick, us
             >
               Data de Criação
             </TableCell>
+            <TableCell align="center"
+              sx={{ color: "#fff", fontWeight: "bold", fontSize: "1rem" }}
+            >
+              Ações
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -138,6 +145,25 @@ export function TabelaPreventivas({ preventivas, loading = false, onRowClick, us
                 </TableCell>
                 <TableCell align="center">
                   {new Date(p.created_at).toLocaleDateString("pt-br")}
+                </TableCell>
+                <TableCell align="center">
+                  <button
+                    className="text-blue-500 hover:text-blue-700"
+
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onEdit && onEdit(p.id)
+                    }}>
+                    <Edit size={20} />
+                  </button>
+                  <button
+                    className="text-red-500 hover:text-red-700 ml-2"
+                    onClick={(e) => {
+                    e.stopPropagation();
+                    onDelete && onDelete(p.id);
+                  }}>
+                    <Trash size={20} />
+                  </button>
                 </TableCell>
               </TableRow>
             ))
@@ -324,12 +350,19 @@ export function TabelaPreventivasGeral({ loading = false, onRowClick, onEdit, on
                 <TableCell align="center">
                   <button
                     className="text-blue-500 hover:text-blue-700"
-                    onClick={() => onEdit && onEdit(p.id)} >
+
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onEdit && onEdit(p.id)
+                    }}>
                     <Edit size={20} />
                   </button>
                   <button
                     className="text-red-500 hover:text-red-700 ml-2"
-                    onClick={() => onDelete && onDelete(p.id)}>
+                    onClick={(e) => {
+                    e.stopPropagation();
+                    onDelete && onDelete(p.id);
+                  }}>
                     <Trash size={20} />
                   </button>
                 </TableCell>

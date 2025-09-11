@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 interface PreventivaFormData {
   nome: string;
   tipo: string;
-  kilometragem_percorrida: string; 
+  kilometragem_percorrida: string;
   irregularidades_encontradas: string;
   irregularidades_corrigidas: string;
   descricao: string;
@@ -47,10 +47,6 @@ export function usePreventivaForm({ initialForm, setLoadingText, preventiva_id }
       api.get<Preventiva>(`/preventivas/${preventiva_id}`)
         .then((res) => {
           const preventiva = res.data;
-
-          console.log('📡 Dados carregados da API:', preventiva);
-          console.log('📸 Fotos da API:', preventiva.fotos);
-
           const novoForm = {
             nome: preventiva.nome,
             tipo: preventiva.tipo,
@@ -103,7 +99,6 @@ export function usePreventivaForm({ initialForm, setLoadingText, preventiva_id }
     setLoadingText("Salvando preventiva...");
 
     try {
-      console.log('🚀 Form antes de processar:', form);
 
       const payload = {
         nome: form.nome,
@@ -112,9 +107,10 @@ export function usePreventivaForm({ initialForm, setLoadingText, preventiva_id }
         irregularidades_encontradas: Number(form.irregularidades_encontradas),
         irregularidades_corrigidas: Number(form.irregularidades_corrigidas),
         descricao: form.descricao,
-        user_id: userInfo?.id || 0,
+        userId: userInfo?.id,
       };
 
+      //EDIÇÃO
       if (preventiva_id) {
         await api.put(`/preventivas/${preventiva_id}`, payload);
 
@@ -125,6 +121,7 @@ export function usePreventivaForm({ initialForm, setLoadingText, preventiva_id }
           ...form.fotosPop.map(f => ({ ...f, tipo: "POP" })),
         ];
 
+        //Atualizar descrição de fotos existentes
         for (const foto of todasFotos) {
           if (foto.id && !foto.file && foto.url) {
             try {
@@ -134,14 +131,13 @@ export function usePreventivaForm({ initialForm, setLoadingText, preventiva_id }
                 userId: userInfo?.id,
                 preventiva_id: preventiva_id
               });
-              console.log(`✅ Descrição da foto ${foto.id} atualizada`);
             } catch (err) {
               console.error(`❌ Erro ao atualizar foto ${foto.id}:`, err);
             }
           }
         }
 
-        // ✅ 2. Enviar fotos novas
+        // 2. Enviar fotos novas na edição
         for (const foto of todasFotos) {
           if (foto.file && !foto.id) {
             const fd = new FormData();
@@ -151,14 +147,40 @@ export function usePreventivaForm({ initialForm, setLoadingText, preventiva_id }
             fd.append("preventiva_id", String(preventiva_id));
             fd.append("userId", String(userInfo?.id || 0));
             await enviarFotoPreventiva(fd);
-            console.log(`✅ Nova foto enviada`);
           }
         }
 
-        alert("Preventiva criada com sucesso!");
+        alert("Preventiva atualizada com sucesso!");
         router.push(`/preventiva/${preventiva_id}`);
       }
-    } catch (error) {
+      //CRIAÇÃO
+      else {
+        const preventivaRes = await criarPreventiva(payload);
+        const novaPreventivaId = (preventivaRes as { id: number }).id;
+
+        const todasFotos = [
+          ...form.fotosAntes.map(f => ({ ...f, tipo: "ANTES" })),
+          ...form.fotosDepois.map(f => ({ ...f, tipo: "DEPOIS" })),
+          ...form.fotosPop.map(f => ({ ...f, tipo: "POP" })),
+        ];
+
+        // Enviar todas as fotos na criação
+        for (const foto of todasFotos) {
+          if (foto.file) {
+            const fd = new FormData();
+            fd.append("file", foto.file);
+            fd.append("tipo", foto.tipo);
+            fd.append("descricao", foto.descricao || "");
+            fd.append("preventiva_id", String(novaPreventivaId));
+            fd.append("userId", String(userInfo.id));
+            await enviarFotoPreventiva(fd);
+          }
+          alert("Preventiva criada com sucesso!");
+          router.push(`/preventiva/${novaPreventivaId}`);
+        }
+      }
+    }
+    catch (error) {
       console.error("Erro ao salvar preventiva:", error);
       alert("Erro ao salvar preventiva.");
     } finally {
@@ -166,9 +188,7 @@ export function usePreventivaForm({ initialForm, setLoadingText, preventiva_id }
     }
   }
 
-  if (!userInfo) {
-    return { form, setForm, errors, handleSubmit, loading };
-  }
+  const handleSubmitSafe = userInfo ? handleSubmit : () => {};
 
-  return { form, setForm, errors, handleSubmit, loading, userInfo };
+  return { form, setForm, errors, handleSubmit: handleSubmitSafe, loading, userInfo };
 }
