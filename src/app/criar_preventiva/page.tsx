@@ -146,7 +146,7 @@ export default function CreatePreventiva() {
                                         fotos={form.fotosPop || []}
                                         onChange={(files) => setForm({ ...form, fotosPop: files })}
                                         label="Fotos POP"
-                                        qtdMaxFotos={15}
+                                        qtdMaxFotos={30}
                                     />
                                 </>
                             )}
