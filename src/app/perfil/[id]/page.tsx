@@ -9,6 +9,8 @@ import { TabelaPreventivas } from "@/components/Tabela";
 import { Preventiva } from "@/utils/Interfaces";
 import { buscarTecnicoPorId, buscarPreventivasPorTecnico } from "@/services/usuario";
 import Auth from "@/components/Auth";
+import ModalConfirmacao from "@/components/modal/AcaoTabela";
+import { deletePreventiva } from "@/services/preventivas";
 
 export default function PerfilTecnico() {
   const router = useRouter();
@@ -20,6 +22,11 @@ export default function PerfilTecnico() {
   const [tecnico, setTecnico] = useState<any>(null);
   const [preventivas, setPreventivas] = useState<Preventiva[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const [modalExcluir, setModalExcluir] = useState(false);
+  const [modalEditar, setModalEditar] = useState(false);
+  const [preventivaSelecionada, setPreventivaSelecionada] = useState<Preventiva | null>(null);
+
 
   useEffect(() => {
     async function fetchData() {
@@ -45,10 +52,45 @@ export default function PerfilTecnico() {
     return (
       <div className="max-w-2xl mx-auto p-8 bg-white rounded-xl shadow mt-20">
         <h2 className="text-2xl font-bold text-red-700">
-          Técnico não encontrado
+          Perfil não encontrado
         </h2>
       </div>
     );
+
+  async function handleEdit(id: number) {
+    const preventiva = preventivas.find(p => p.id === id);
+    setPreventivaSelecionada(preventiva || null);
+    setModalEditar(true);
+  }
+
+  function confirmarEdicao() {
+    if (preventivaSelecionada) {
+      setModalEditar(false);
+      router.push(`/editar_preventiva/${preventivaSelecionada.id}`);
+    }
+  }
+
+  // ✅ Função para abrir modal de exclusão
+  async function handleDelete(id: number) {
+    const preventiva = preventivas.find(p => p.id === id);
+    setPreventivaSelecionada(preventiva || null);
+    setModalExcluir(true);
+  }
+
+  // ✅ Função para confirmar exclusão
+  async function confirmarExclusao() {
+    if (preventivaSelecionada) {
+      try {
+        await deletePreventiva(preventivaSelecionada.id);
+        setPreventivas((prev) => prev.filter((p) => p.id !== preventivaSelecionada.id));
+        setModalExcluir(false);
+        alert("Preventiva excluída com sucesso!");
+      } catch (error) {
+        console.error("Erro ao excluir preventiva:", error);
+        alert("Erro ao excluir preventiva.");
+      }
+    }
+  }
 
   return (
     <Auth>
@@ -66,8 +108,8 @@ export default function PerfilTecnico() {
                 </h2>
                 <span
                   className={`px-4 py-2 rounded-full text-lg font-semibold ${tecnico.ativo
-                      ? "bg-green-100 text-green-700"
-                      : "bg-red-100 text-red-700"
+                    ? "bg-green-100 text-green-700"
+                    : "bg-red-100 text-red-700"
                     }`}
                 >
                   {tecnico.ativo ? "Ativo" : "Desativado"}
@@ -93,6 +135,8 @@ export default function PerfilTecnico() {
                   loading={loading}
                   onRowClick={(id) => router.push(`/preventiva/${id}`)}
                   user_id={tecnico.id}
+                  onEdit={handleEdit}
+                  onDelete={handleDelete}
                 />
               </div>
             ) : (
@@ -104,6 +148,21 @@ export default function PerfilTecnico() {
         </main>
         <div className="mb-20" />
         <Footer />
+        <ModalConfirmacao
+          isOpen={modalEditar}
+          onClose={() => setModalEditar(false)}
+          onConfirm={confirmarEdicao}
+          titulo="Editar Preventiva"
+          mensagem={`Deseja editar a preventiva "${preventivaSelecionada?.nome}"?`}
+        />
+
+        <ModalConfirmacao
+          isOpen={modalExcluir}
+          onClose={() => setModalExcluir(false)}
+          onConfirm={confirmarExclusao}
+          titulo="Excluir Preventiva"
+          mensagem={`Tem certeza que deseja excluir a preventiva "${preventivaSelecionada?.nome}"? Esta ação não pode ser desfeita.`}
+        />
       </div>
     </Auth>
   );

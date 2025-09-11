@@ -11,6 +11,7 @@ import PainelEstatisticas from "@/components/Painel";
 import { AcoesDashboard } from "@/components/Buttons";
 import NotificacoesRecentes from "@/components/Notificacoes";
 import { ArrowBigUpDash, Pointer } from "lucide-react";
+import { useNotificacoes } from "@/hooks/useNotificacoes";
 
 export default function PaginaPrincipal() {
     const [open, setOpen] = useState(false);
@@ -26,7 +27,7 @@ export default function PaginaPrincipal() {
             .catch(() => setUserInfo(null));
     }, []);
 
-    const [notificacoes, setNotificacoes] = useState<string[]>([]);
+    const { notificacoes } = useNotificacoes();
 
     return (
         <Auth>

@@ -16,16 +16,19 @@ export default function CreatePreventiva() {
     const [open, setOpen] = useState(false);
     const headerPadding = "pl-24";
     const hookResult = usePreventivaForm({
-        nome: "",
-        tipo: "",
-        kilometragem_percorrida: "",
-        irregularidades_encontradas: "",
-        irregularidades_corrigidas: "",
-        descricao: "",
-        fotosAntes: [] as { file: File, descricao: string }[],
-        fotosDepois: [] as { file: File, descricao: string }[],
-        fotosPop: [] as { file: File, descricao: string }[],
-    }, setLoadingText);
+        initialForm: {
+            nome: "",
+            tipo: "",
+            kilometragem_percorrida: "",
+            irregularidades_encontradas: "",
+            irregularidades_corrigidas: "",
+            descricao: "",
+            fotosAntes: [] as { file: File, descricao: string }[],
+            fotosDepois: [] as { file: File, descricao: string }[],
+            fotosPop: [] as { file: File, descricao: string }[],
+        },
+        setLoadingText: setLoadingText,
+    });
 
     if (!hookResult) {
         return (
@@ -156,10 +159,7 @@ export default function CreatePreventiva() {
                             <button
                                 type="submit"
                                 className="w-full bg-blue-600 hover:bg-blue-700 transition text-white font-semibold py-3 px-4 rounded-md"
-                                onClick={e => {
-                                    e.preventDefault();
-                                    handleSubmit(e);
-                                }}
+                                
                             >
                                 Salvar Preventiva
                             </button>
